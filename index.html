@@ -21,7 +21,6 @@
     --font-scale: 1;
 }
 
-/* ==================== تم روز (روشن) ==================== */
 body.light-mode {
     --bg-main: #fdf6e8;
     --bg-card: rgba(255,250,240,0.98);
@@ -36,10 +35,10 @@ body.light-mode {
 }
 
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Vazirmatn', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
-html, body { overflow-x: hidden; width: 100%; min-height: 100%; user-select: none; }
+html, body { overflow-x: hidden; width: 100%; min-height: 100%; }
 body { background: var(--bg-main); color: var(--text-main); position: relative; transition: background 0.4s, color 0.4s; font-size: calc(16px * var(--font-scale)); }
 
-/* ==================== پس‌زمینه سنتی ==================== */
+/* ==================== پس‌زمینه ==================== */
 .bg-layer {
     position: fixed; inset: 0; z-index: -2;
     background:
@@ -47,7 +46,6 @@ body { background: var(--bg-main); color: var(--text-main); position: relative; 
         radial-gradient(circle at 80% 75%, rgba(90,20,60,0.45), transparent 55%),
         radial-gradient(circle at 50% 50%, #1a0a08, #0d0705);
     animation: bgPulse 14s ease-in-out infinite;
-    transition: opacity 0.5s;
 }
 body.light-mode .bg-layer {
     background:
@@ -66,34 +64,27 @@ body.light-mode .bg-layer {
 }
 @keyframes floatUp {
     from { transform: translateY(100vh) scale(0.4); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
+    10%,90% { opacity: 1; }
     to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
-/* ==================== نوار کنترل بالا ==================== */
+/* ==================== کنترل‌های بالا ==================== */
 .top-controls {
     position: fixed; top: 15px; left: 15px;
-    display: flex; gap: 8px;
-    z-index: 999;
+    display: flex; gap: 8px; z-index: 999;
 }
 .ctrl-btn {
-    width: 42px; height: 42px;
-    border-radius: 50%;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    color: var(--gold);
-    cursor: pointer;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--gold); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     font-size: 1.1rem; font-weight: 700;
     box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-    transition: all .3s;
-    font-family: inherit;
+    transition: all .3s; font-family: inherit;
 }
 .ctrl-btn:hover {
     background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-    color: #1a0a08;
-    transform: translateY(-3px);
+    color: #1a0a08; transform: translateY(-3px);
 }
 .ctrl-btn:active { transform: scale(0.92); }
 
@@ -121,13 +112,8 @@ body.light-mode .bg-layer {
 @keyframes borderRotate { 0%{background-position:0% 50%;} 100%{background-position:300% 50%;} }
 
 .cover-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    height: 260px;
-    margin: 0 auto 25px;
-    border-radius: 22px;
-    overflow: hidden;
+    position: relative; width: 100%; max-width: 450px; height: 260px;
+    margin: 0 auto 25px; border-radius: 22px; overflow: hidden;
     border: 3px solid rgba(255,210,122,0.5);
     box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(255,210,122,0.2);
     background: linear-gradient(135deg, #8b1a1a, #3a0a05);
@@ -148,8 +134,7 @@ body.light-mode .bg-layer {
     background: linear-gradient(135deg, #8b1a1a, #3a0a05);
     box-shadow: 0 8px 30px rgba(201,139,58,0.5), inset 0 0 40px rgba(255,210,122,0.15);
     display: flex; align-items: center; justify-content: center;
-    font-size: 60px; position: relative; z-index: 2; color: #ffd27a;
-    overflow: hidden;
+    font-size: 60px; position: relative; z-index: 2; color: #ffd27a; overflow: hidden;
 }
 .logo-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .logo-fallback { font-size: 60px; line-height: 1; }
@@ -220,19 +205,11 @@ body.light-mode .bg-layer {
 }
 .app-sub { font-size: 0.8rem; color: var(--text-soft); letter-spacing: 2px; margin-top: 5px; }
 
-/* آمار */
-.stats-box {
-    display: flex; justify-content: center; gap: 10px;
-    margin: 15px auto; max-width: 500px; flex-wrap: wrap;
-}
+.stats-box { display: flex; justify-content: center; gap: 10px; margin: 15px auto; max-width: 500px; flex-wrap: wrap; }
 .stat-item {
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    padding: 12px 18px;
-    text-align: center;
-    min-width: 100px;
-    flex: 1;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 15px; padding: 12px 18px; text-align: center;
+    min-width: 100px; flex: 1;
 }
 .stat-num { font-size: 1.5rem; font-weight: 700; color: var(--gold); display: block; }
 .stat-lbl { font-size: 0.75rem; color: var(--text-soft); margin-top: 3px; display: block; }
@@ -258,44 +235,163 @@ body.light-mode .bg-layer {
 .section-title { text-align: center; color: var(--gold); font-size: 1.3rem; margin: 25px 0 20px; letter-spacing: 2px; }
 .section-title::before, .section-title::after { content: ' ❖ '; color: var(--gold-dark); }
 
-/* ==================== نمایش PDF (PDF.js) ==================== */
-.pdf-container {
-    width: 100%;
-    margin: 0 auto 15px;
-    border-radius: 15px;
-    overflow: hidden;
+/* ==================== کتاب ==================== */
+.book-text-container {
+    background: var(--bg-soft);
     border: 2px solid var(--border);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    background: var(--bg-soft);
+    border-radius: 20px;
+    padding: 25px 22px;
+    margin: 0 auto 25px;
+    max-width: 750px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    line-height: 2.2;
+    font-size: 1.05rem;
+    text-align: justify;
+    max-height: 75vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    direction: rtl;
 }
-.pdf-viewer {
-    width: 100%;
-    height: 80vh;
-    border: none;
+
+.book-text-container::-webkit-scrollbar { width: 8px; }
+.book-text-container::-webkit-scrollbar-track { background: var(--bg-main); border-radius: 10px; }
+.book-text-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--gold-dark), var(--gold));
+    border-radius: 10px;
+}
+
+/* استایل برای محتوای لود شده از book.html */
+.book-text-container h1,
+.book-text-container h2,
+.book-text-container h3,
+.book-text-container h4,
+.book-text-container h5 {
+    color: var(--gold) !important;
+    text-align: center !important;
+    margin: 25px 0 15px !important;
+    font-size: 1.5rem !important;
+    line-height: 1.8 !important;
+    font-weight: 700 !important;
+    direction: rtl !important;
+}
+
+.book-text-container h2 { font-size: 1.6rem !important; }
+.book-text-container h3 { font-size: 1.35rem !important; }
+
+.book-text-container p,
+.book-text-container div:not(.book-text-container),
+.book-text-container span {
+    color: var(--text-main) !important;
+    line-height: 2.2 !important;
+    margin-bottom: 12px !important;
+    font-size: 1.05rem !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.book-text-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 15px auto;
     display: block;
+}
+
+.book-text-container table {
+    width: 100%;
+    color: var(--text-main);
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.book-text-container td,
+.book-text-container th {
+    padding: 8px;
+    border: 1px solid var(--border);
+    text-align: right;
+    direction: rtl;
+}
+
+.book-text-container ul,
+.book-text-container ol {
+    padding-right: 25px;
+    padding-left: 0;
+    color: var(--text-main);
+    margin-bottom: 15px;
+    direction: rtl;
+}
+
+.book-text-container li {
+    line-height: 2.2;
+    margin-bottom: 5px;
+}
+
+.book-text-container .verse,
+.book-text-container .shahr {
+    text-align: center !important;
+    color: var(--text-main) !important;
+    margin: 20px 0 !important;
+    font-size: 1.1rem !important;
+    line-height: 2.4 !important;
+    padding: 15px 20px !important;
+    background: rgba(255,210,122,0.05) !important;
+    border-right: 3px solid var(--gold-dark) !important;
+    border-radius: 8px !important;
+}
+
+/* اسکرول بار داخل کتاب */
+.book-text-container::-webkit-scrollbar { width: 8px; }
+.book-text-container::-webkit-scrollbar-track { background: var(--bg-main); border-radius: 10px; }
+.book-text-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--gold-dark), var(--gold));
+    border-radius: 10px;
+}
+
+.book-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px auto 25px;
+    flex-wrap: wrap;
+}
+.book-ctrl-btn {
+    padding: 10px 18px;
+    border-radius: 30px;
     background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all .3s;
+}
+.book-ctrl-btn:hover {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #1a0a08;
+    transform: translateY(-3px);
 }
 
-.pdf-fallback {
-    text-align: center; padding: 20px;
-    background: rgba(255,210,122,0.05);
-    border: 1px dashed var(--border);
-    border-radius: 15px; margin-bottom: 20px;
+/* Loading State */
+.book-loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gold);
 }
-.pdf-fallback p { color: var(--text-soft); margin-bottom: 15px; font-size: 0.95rem; line-height: 1.8; }
-.pdf-fallback a {
-    display: inline-block; padding: 12px 30px;
-    background: linear-gradient(135deg, #8b1a1a, #c98b3a, #ffd27a);
-    color: #1a0a08; text-decoration: none; border-radius: 30px;
-    font-weight: 700; transition: transform .3s;
+.book-loading .spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
 }
-.pdf-fallback a:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,210,122,0.4); }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* نشانک */
-.bookmark-bar {
-    display: flex; justify-content: center; gap: 10px;
-    margin-bottom: 20px; flex-wrap: wrap;
-}
+/* ==================== نشانک ==================== */
+.bookmark-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .bookmark-btn {
     padding: 10px 20px; border-radius: 30px;
     background: var(--bg-soft); border: 1px solid var(--border);
@@ -305,15 +401,14 @@ body.light-mode .bg-layer {
 }
 .bookmark-btn:hover {
     background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-    color: #1a0a08;
-    transform: translateY(-3px);
+    color: #1a0a08; transform: translateY(-3px);
 }
 .bookmark-btn.saved {
     background: linear-gradient(135deg, #8b1a1a, #c98b3a);
     color: #ffd27a;
 }
 
-/* بخش نظر */
+/* ==================== نظر ==================== */
 .comment-box {
     background: var(--bg-soft);
     border: 1px solid var(--border);
@@ -322,19 +417,17 @@ body.light-mode .bg-layer {
 .comment-box h3 { color: var(--gold); margin-bottom: 15px; font-size: 1.1rem; text-align: center; }
 .comment-box textarea {
     width: 100%; min-height: 120px; padding: 15px;
-    background: var(--bg-main);
-    border: 1px solid var(--border);
+    background: var(--bg-main); border: 1px solid var(--border);
     border-radius: 15px; color: var(--text-main); font-family: inherit;
-    font-size: 1rem; line-height: 1.8; resize: vertical; outline: none; transition: border-color .3s;
+    font-size: 1rem; line-height: 1.8; resize: vertical; outline: none;
 }
 .comment-box textarea:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(255,210,122,0.2); }
 .comment-box textarea::placeholder { color: var(--text-dim); }
 .comment-box input {
     width: 100%; padding: 12px 15px; margin-bottom: 12px;
-    background: var(--bg-main);
-    border: 1px solid var(--border);
+    background: var(--bg-main); border: 1px solid var(--border);
     border-radius: 15px; color: var(--text-main); font-family: inherit;
-    font-size: 0.95rem; outline: none; transition: border-color .3s;
+    font-size: 0.95rem; outline: none;
 }
 .comment-box input:focus { border-color: var(--gold); }
 .comment-box input::placeholder { color: var(--text-dim); }
@@ -345,62 +438,33 @@ body.light-mode .bg-layer {
     background-size: 200% 200%; color: #1a0a08; border: none;
     border-radius: 15px; font-size: 1.05rem; font-weight: 700;
     cursor: pointer; font-family: inherit;
-    animation: btnGradient 4s ease infinite; transition: transform .2s;
+    animation: btnGradient 4s ease infinite;
 }
 .send-btn:active { transform: scale(0.97); }
 
 .success-msg {
     display: none; margin-top: 15px; padding: 12px;
     background: rgba(255,210,122,0.15); border: 1px solid var(--gold);
-    border-radius: 12px; color: var(--gold); text-align: center;
-    font-size: 0.95rem; animation: fadeIn 0.5s ease;
+    border-radius: 12px; color: var(--gold); text-align: center; font-size: 0.95rem;
 }
 .success-msg.show { display: block; }
 
-/* لیست پیام‌های من */
-.my-messages {
-    margin-top: 20px;
-}
-.my-messages h4 {
-    color: var(--gold); margin-bottom: 12px;
-    font-size: 1rem; text-align: center;
-}
+/* ==================== پیام‌های من ==================== */
+.my-messages { margin-top: 20px; }
 .msg-item {
-    background: var(--bg-main);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    line-height: 1.7;
+    background: var(--bg-main); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 15px; margin-bottom: 10px;
+    font-size: 0.9rem; line-height: 1.7;
 }
-.msg-item .msg-name {
-    color: var(--gold);
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin-bottom: 5px;
-    display: block;
-}
+.msg-item .msg-name { color: var(--gold); font-weight: 700; font-size: 0.85rem; margin-bottom: 5px; display: block; }
 .msg-item .msg-text { color: var(--text-main); }
-.msg-item .msg-date {
-    color: var(--text-dim);
-    font-size: 0.75rem;
-    margin-top: 6px;
-    display: block;
-}
+.msg-item .msg-date { color: var(--text-dim); font-size: 0.75rem; margin-top: 6px; display: block; }
+.empty-msg { text-align: center; color: var(--text-dim); font-size: 0.9rem; padding: 15px; }
 
-.empty-msg {
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.9rem;
-    padding: 15px;
-}
-
-/* پخش‌کننده موسیقی */
+/* ==================== موسیقی ==================== */
 .music-bar {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    background: rgba(20,10,8,0.95);
-    border: 1px solid var(--border);
+    background: rgba(20,10,8,0.95); border: 1px solid var(--border);
     border-radius: 50px; padding: 10px 22px;
     display: flex; align-items: center; gap: 14px; z-index: 100;
     backdrop-filter: blur(15px);
@@ -420,16 +484,18 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
 @media (max-width: 600px) {
     .game-title { font-size: 26px; }
     .logo-wrapper-main { width: 110px; height: 110px; }
-    .logo-circle { font-size: 50px; }
-    .logo-fallback { font-size: 50px; }
+    .logo-circle, .logo-fallback { font-size: 50px; }
     .cover-wrapper { height: 200px; }
     .cover-fallback { font-size: 80px; }
     .big-btn { font-size: 17px; padding: 14px 32px; }
     .tab { padding: 8px 14px; font-size: 0.8rem; }
     .music-bar { padding: 8px 16px; gap: 10px; }
     .music-btn { width: 38px; height: 38px; font-size: 1rem; }
-    .pdf-viewer { height: 75vh; }
     .ctrl-btn { width: 38px; height: 38px; font-size: 1rem; }
+    .book-text-container { font-size: 1rem; padding: 20px 15px; line-height: 2; max-height: 70vh; }
+    .book-text-container h2 { font-size: 1.35rem !important; }
+    .book-text-container h3 { font-size: 1.15rem !important; }
+    .book-ctrl-btn { padding: 8px 14px; font-size: 0.8rem; }
 }
 </style>
 </head>
@@ -440,7 +506,6 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ==================== کنترل‌های بالا ==================== -->
 <div class="top-controls">
     <button class="ctrl-btn" id="themeBtn" title="حالت شب/روز">🌙</button>
     <button class="ctrl-btn" id="fontUp" title="بزرگ‌تر">A+</button>
@@ -506,7 +571,6 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
         </div>
     </div>
 
-    <!-- آمار -->
     <div class="stats-box">
         <div class="stat-item">
             <span class="stat-num" id="visitCount">0</span>
@@ -524,31 +588,33 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
         <div class="tab" data-tab="myMsg">📨 پیام‌های من</div>
     </div>
 
-    <!-- کتاب -->
+    <!-- ==================== کتاب ==================== -->
     <div class="panel active" id="book">
         <div class="section-title">مثنوی معنوی · مولانا</div>
 
         <div class="bookmark-bar">
-            <button class="bookmark-btn" id="bookmarkBtn">🔖 نشانک صفحه</button>
+            <button class="bookmark-btn" id="bookmarkBtn">🔖 نشانک این صفحه</button>
         </div>
 
-        <!-- PDF با PDF.js — داخل خود سایت باز میشه -->
-        <div class="pdf-container">
-            <iframe
-                class="pdf-viewer"
-                id="pdfFrame"
-                src="https://mozilla.github.io/pdf.js/web/viewer.html?file=book.pdf"
-                allowfullscreen>
-            </iframe>
+        <div class="book-controls">
+            <button class="book-ctrl-btn" id="scrollTopBtn">⬆️ ابتدای کتاب</button>
+            <button class="book-ctrl-btn" id="alignBtn">↔ تغییر چینش</button>
         </div>
 
-        <div class="pdf-fallback">
-            <p>📖 اگه کتاب باز نشد، روی دکمه زیر بزن:</p>
-            <a href="book.pdf" target="_blank">باز کردن کتاب در پنجره جدید</a>
+        <!-- محتوای کتاب از فایل book.html لود میشه -->
+        <div class="book-text-container" id="bookText">
+            <div class="book-loading">
+                <div class="spinner"></div>
+                <p style="color: var(--gold);">⏳ در حال بارگذاری کتاب...</p>
+                <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 10px;">
+                    (فایل ۲۲ مگابایتی — چند لحظه صبر کن)
+                </p>
+            </div>
         </div>
+
     </div>
 
-    <!-- نظر -->
+    <!-- ==================== پیام ==================== -->
     <div class="panel" id="comment">
         <div class="section-title">پیام به لیلی</div>
         <div class="comment-box">
@@ -562,7 +628,7 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
         </div>
     </div>
 
-    <!-- پیام‌های من -->
+    <!-- ==================== پیام‌های من ==================== -->
     <div class="panel" id="myMsg">
         <div class="section-title">پیام‌های من</div>
         <div class="my-messages" id="myMessagesList">
@@ -577,7 +643,7 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
 </div>
 
 <script>
-/* ==================== تم شب / روز ==================== */
+/* ==================== تم ==================== */
 (function initTheme() {
     const themeBtn = document.getElementById('themeBtn');
     const saved = localStorage.getItem('lily_theme');
@@ -587,7 +653,6 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     } else {
         themeBtn.textContent = '🌙';
     }
-    
     themeBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
         const isLight = document.body.classList.contains('light-mode');
@@ -596,16 +661,14 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     });
 })();
 
-/* ==================== بزرگ/کوچک فونت ==================== */
+/* ==================== فونت ==================== */
 (function initFont() {
     let scale = parseFloat(localStorage.getItem('lily_font') || '1');
-    
     function apply() {
         document.documentElement.style.setProperty('--font-scale', scale);
         localStorage.setItem('lily_font', scale);
     }
     apply();
-    
     document.getElementById('fontUp').addEventListener('click', () => {
         if (scale < 1.5) { scale += 0.1; apply(); }
     });
@@ -622,50 +685,137 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
         url: 'https://eitaa.com/leyli6060'
     };
     try {
-        if (navigator.share) {
-            await navigator.share(shareData);
-        } else {
+        if (navigator.share) { await navigator.share(shareData); }
+        else {
             await navigator.clipboard.writeText(shareData.url);
             alert('🌹 لینک کانال کپی شد!');
         }
-    } catch (e) {
-        // کاربر انصراف داد
-    }
+    } catch (e) {}
 });
 
-/* ==================== آمار بازدید ==================== */
+/* ==================== آمار ==================== */
 (function initStats() {
     let visits = parseInt(localStorage.getItem('lily_visits') || '0') + 1;
     localStorage.setItem('lily_visits', visits);
     document.getElementById('visitCount').textContent = visits;
-    
+
     const messages = JSON.parse(localStorage.getItem('lily_messages') || '[]');
     document.getElementById('msgCount').textContent = messages.length;
 })();
 
-/* ==================== نشانک ==================== */
+/* ==================== نشانک + ذخیره محل خواندن ==================== */
 (function initBookmark() {
     const btn = document.getElementById('bookmarkBtn');
-    const saved = localStorage.getItem('lily_bookmark');
-    if (saved) {
+    const container = document.getElementById('bookText');
+
+    const savedPos = parseInt(localStorage.getItem('lily_read_pos') || '0');
+    if (savedPos > 0) {
+        setTimeout(() => {
+            container.scrollTop = savedPos;
+        }, 3000);
         btn.classList.add('saved');
-        btn.textContent = '🔖 نشانک ذخیره شد';
+        btn.textContent = '🔖 محل خوانده شده ذخیره‌ست';
     }
-    
+
+    let saveTimer;
+    container.addEventListener('scroll', () => {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+            localStorage.setItem('lily_read_pos', container.scrollTop);
+        }, 500);
+    });
+
     btn.addEventListener('click', () => {
         if (btn.classList.contains('saved')) {
-            localStorage.removeItem('lily_bookmark');
+            localStorage.removeItem('lily_read_pos');
             btn.classList.remove('saved');
-            btn.textContent = '🔖 نشانک صفحه';
+            btn.textContent = '🔖 نشانک این صفحه';
         } else {
-            localStorage.setItem('lily_bookmark', new Date().toISOString());
+            localStorage.setItem('lily_read_pos', container.scrollTop);
             btn.classList.add('saved');
-            btn.textContent = '🔖 نشانک ذخیره شد';
+            btn.textContent = '🔖 محل ذخیره شد';
         }
     });
 })();
 
-/* ==================== بارگذاری عکس کاور ==================== */
+/* ==================== ابتدای کتاب ==================== */
+document.getElementById('scrollTopBtn').addEventListener('click', () => {
+    document.getElementById('bookText').scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ==================== تغییر چینش ==================== */
+(function initAlign() {
+    const btn = document.getElementById('alignBtn');
+    const container = document.getElementById('bookText');
+    const savedAlign = localStorage.getItem('lily_align') || 'justify';
+
+    if (savedAlign === 'right') {
+        container.style.textAlign = 'right';
+        btn.textContent = '↔ چینش: راست‌چین';
+    } else {
+        container.style.textAlign = 'justify';
+        btn.textContent = '↔ چینش: هم‌تراز';
+    }
+
+    btn.addEventListener('click', () => {
+        const current = container.style.textAlign;
+        if (current === 'justify') {
+            container.style.textAlign = 'right';
+            btn.textContent = '↔ چینش: راست‌چین';
+            localStorage.setItem('lily_align', 'right');
+        } else {
+            container.style.textAlign = 'justify';
+            btn.textContent = '↔ چینش: هم‌تراز';
+            localStorage.setItem('lily_align', 'justify');
+        }
+    });
+})();
+
+/* ==================== لود کتاب از book.html ==================== */
+(async function loadBook() {
+    const container = document.getElementById('bookText');
+    if (!container) return;
+
+    try {
+        const response = await fetch('book.html');
+        if (!response.ok) throw new Error('فایل book.html پیدا نشد');
+        const html = await response.text();
+
+        // استخراج محتوای body اگه فایل کامل html باشه
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const bodyContent = doc.body ? doc.body.innerHTML : html;
+
+        container.innerHTML = bodyContent;
+
+        // بازیابی محل خواندن
+        const savedPos = parseInt(localStorage.getItem('lily_read_pos') || '0');
+        if (savedPos > 0) {
+            setTimeout(() => {
+                container.scrollTop = savedPos;
+            }, 300);
+        }
+
+        console.log('✅ کتاب با موفقیت لود شد');
+
+    } catch (err) {
+        console.error('خطا در لود کتاب:', err);
+        container.innerHTML = `
+            <div style="text-align:center;padding:40px;color:var(--text-soft);">
+                <p style="font-size:3rem;margin-bottom:15px;">📄</p>
+                <p style="color:var(--gold);font-size:1.1rem;margin-bottom:10px;">
+                    کتاب لود نشد
+                </p>
+                <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.8;">
+                    لطفاً اینترنتت رو چک کن و صفحه رو رفرش کن.<br>
+                    اگه بازم نشد، فایل book.html باید کنار index.html باشه.
+                </p>
+            </div>
+        `;
+    }
+})();
+
+/* ==================== کاور ==================== */
 (function loadCover() {
     var wrapper = document.getElementById('coverWrapper');
     if (!wrapper) return;
@@ -680,7 +830,7 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
     img.src = 'cover.jpg';
 })();
 
-/* ==================== بارگذاری لوگو ==================== */
+/* ==================== لوگو ==================== */
 (function loadLogo() {
     var circle = document.getElementById('logoCircle');
     if (!circle) return;
@@ -754,7 +904,6 @@ document.getElementById('sendBtn').addEventListener('click', () => {
     localStorage.setItem('lily_messages', JSON.stringify(messages));
 
     msgCountEl.textContent = messages.length;
-
     renderMyMessages();
 
     const fullMessage = `🌹 پیام از: ${name}\n\n${text}`;
@@ -770,16 +919,16 @@ document.getElementById('sendBtn').addEventListener('click', () => {
     document.getElementById('nameInput').value = '';
 });
 
-/* ==================== نمایش پیام‌های من ==================== */
+/* ==================== پیام‌های من ==================== */
 function renderMyMessages() {
     const list = document.getElementById('myMessagesList');
     const messages = JSON.parse(localStorage.getItem('lily_messages') || '[]');
-    
+
     if (messages.length === 0) {
         list.innerHTML = '<div class="empty-msg">هنوز پیامی نفرستادی 💌</div>';
         return;
     }
-    
+
     list.innerHTML = '';
     messages.slice().reverse().forEach(m => {
         const div = document.createElement('div');
