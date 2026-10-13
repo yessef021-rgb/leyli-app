@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌹 کانال لیلی | دیوان عاشقان</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ==================== تم روز (پیش‌فرض) ==================== */
+:root {
+    --bg-main: #0d0705;
+    --bg-card: rgba(35,18,12,0.96);
+    --bg-soft: rgba(30,15,12,0.85);
+    --text-main: #f5e6d3;
+    --text-soft: #c9a87a;
+    --text-dim: #8a7055;
+    --gold: #ffd27a;
+    --gold-dark: #c98b3a;
+    --red: #8b1a1a;
+    --border: rgba(255,210,122,0.35);
+    --font-scale: 1;
+}
+
+/* ==================== تم روز (روشن) ==================== */
+body.light-mode {
+    --bg-main: #fdf6e8;
+    --bg-card: rgba(255,250,240,0.98);
+    --bg-soft: rgba(250,240,225,0.9);
+    --text-main: #3a2010;
+    --text-soft: #8a6a3a;
+    --text-dim: #a08050;
+    --gold: #b8860b;
+    --gold-dark: #8b6508;
+    --red: #8b1a1a;
+    --border: rgba(184,134,11,0.5);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Vazirmatn', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
+html, body { overflow-x: hidden; width: 100%; min-height: 100%; user-select: none; }
+body { background: var(--bg-main); color: var(--text-main); position: relative; transition: background 0.4s, color 0.4s; font-size: calc(16px * var(--font-scale)); }
+
+/* ==================== پس‌زمینه سنتی ==================== */
+.bg-layer {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(120,30,30,0.45), transparent 55%),
+        radial-gradient(circle at 80% 75%, rgba(90,20,60,0.45), transparent 55%),
+        radial-gradient(circle at 50% 50%, #1a0a08, #0d0705);
+    animation: bgPulse 14s ease-in-out infinite;
+    transition: opacity 0.5s;
+}
+body.light-mode .bg-layer {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,210,122,0.4), transparent 55%),
+        radial-gradient(circle at 80% 75%, rgba(255,180,100,0.35), transparent 55%),
+        radial-gradient(circle at 50% 50%, #fff5e0, #fdf6e8);
+}
+@keyframes bgPulse { 0%,100%{filter:brightness(1);} 50%{filter:brightness(1.25);} }
+
+.sparkle {
+    position: fixed; width: 3px; height: 3px;
+    background: var(--gold); border-radius: 50%;
+    box-shadow: 0 0 10px var(--gold);
+    pointer-events: none; z-index: 0;
+    animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+    from { transform: translateY(100vh) scale(0.4); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+/* ==================== نوار کنترل بالا (شب/روز، فونت) ==================== */
+.top-controls {
+    position: fixed; top: 15px; left: 15px;
+    display: flex; gap: 8px;
+    z-index: 999;
+}
+.ctrl-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 700;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    transition: all .3s;
+    font-family: inherit;
+}
+.ctrl-btn:hover {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #1a0a08;
+    transform: translateY(-3px);
+}
+.ctrl-btn:active { transform: scale(0.92); }
+
+/* ==================== صفحه شروع ==================== */
+.screen { display: none; min-height: 100vh; padding: 20px 15px 100px; animation: fadeIn 0.6s ease; position: relative; z-index: 2; }
+.screen.active { display: flex; flex-direction: column; align-items: center; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+.start-container {
+    width: 100%; max-width: 540px;
+    background: var(--bg-card);
+    border-radius: 30px; padding: 35px 25px 30px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.7), 0 0 80px rgba(201,139,58,0.15);
+    text-align: center; position: relative; margin: auto;
+    border: 2px solid var(--border);
+}
+.start-container::before {
+    content: ''; position: absolute; inset: -3px; border-radius: 32px; padding: 3px;
+    background: linear-gradient(135deg, #c98b3a, #ffd27a, #8b1a1a, #ffd27a, #c98b3a);
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: borderRotate 6s linear infinite; z-index: -1;
+}
+@keyframes borderRotate { 0%{background-position:0% 50%;} 100%{background-position:300% 50%;} }
+
+.cover-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    height: 260px;
+    margin: 0 auto 25px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 3px solid rgba(255,210,122,0.5);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(255,210,122,0.2);
+    background: linear-gradient(135deg, #8b1a1a, #3a0a05);
+    display: flex; align-items: center; justify-content: center;
+}
+.cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover-fallback { font-size: 100px; color: #ffd27a; text-shadow: 0 0 30px rgba(255,210,122,0.6); }
+.cover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(20,10,7,0.85));
+    pointer-events: none;
+}
+
+.logo-wrapper-main { position: relative; width: 130px; height: 130px; margin: 0 auto 20px; }
+.logo-circle {
+    width: 100%; height: 100%; border-radius: 50%;
+    border: 4px solid #c98b3a;
+    background: linear-gradient(135deg, #8b1a1a, #3a0a05);
+    box-shadow: 0 8px 30px rgba(201,139,58,0.5), inset 0 0 40px rgba(255,210,122,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px; position: relative; z-index: 2; color: #ffd27a;
+    overflow: hidden;
+}
+.logo-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.logo-fallback { font-size: 60px; line-height: 1; }
+.photo-ring { position: absolute; inset: -12px; border-radius: 50%; border: 2px dashed var(--gold); animation: ringRotate 12s linear infinite; z-index: 1; }
+.photo-ring.ring2 { inset: -24px; border: 2px dotted #8b1a1a; animation: ringRotate 18s linear infinite reverse; }
+@keyframes ringRotate { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+.game-title {
+    font-size: 34px; margin: 15px 0 8px; font-weight: 700;
+    background: linear-gradient(90deg, #ffd27a, #c98b3a, #ffd27a, #c98b3a, #ffd27a);
+    background-size: 300% auto;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    animation: titleShine 4s linear infinite; letter-spacing: 2px;
+}
+@keyframes titleShine { to{background-position:300% center;} }
+
+.game-subtitle { font-size: 14px; color: var(--text-soft); margin-bottom: 22px; letter-spacing: 3px; }
+
+.divider-line { width: 140px; height: 1px; margin: 0 auto 22px; background: linear-gradient(90deg, transparent, var(--gold), transparent); position: relative; }
+.divider-line::before { content: '❖'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-main); padding: 0 10px; color: var(--gold); font-size: 14px; }
+
+.info-box {
+    background: linear-gradient(135deg, rgba(201,139,58,0.1), rgba(139,26,26,0.1));
+    border-radius: 20px; padding: 18px 20px; margin: 20px 0;
+    border: 1px dashed var(--border);
+}
+.info-row { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 0; font-size: 15px; }
+.info-row + .info-row { border-top: 1px dashed var(--border); }
+.info-icon { font-size: 20px; }
+.info-label { color: var(--text-soft); }
+.info-value { color: var(--gold); font-weight: 700; }
+
+.big-btn {
+    background: linear-gradient(135deg, #8b1a1a, #c98b3a, #ffd27a);
+    background-size: 200% 200%; color: #1a0a08; border: none;
+    padding: 16px 48px; font-size: 20px; font-weight: 700; border-radius: 50px;
+    cursor: pointer; box-shadow: 0 6px 0 #5a1010, 0 15px 40px rgba(255,210,122,0.35);
+    display: inline-flex; align-items: center; gap: 10px;
+    animation: btnGradient 4s ease infinite; position: relative; overflow: hidden;
+    margin: 12px 0; transition: transform 0.15s; font-family: inherit;
+}
+@keyframes btnGradient { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+.big-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: btnShine 3s linear infinite; }
+@keyframes btnShine { to{left:100%;} }
+.big-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #5a1010; }
+
+.eitaa-btns { display: flex; gap: 10px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+.eitaa-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: 30px;
+    background: rgba(255,210,122,0.1); border: 1px solid var(--border);
+    color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 700;
+    transition: all .3s; font-family: inherit;
+}
+.eitaa-btn:hover { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: #1a0a08; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255,210,122,0.4); }
+
+.copyright { font-size: 12px; color: var(--text-dim); margin-top: 18px; }
+
+/* ==================== اپ اصلی ==================== */
+#appScreen { display: none; padding: 15px 15px 120px; min-height: 100vh; }
+#appScreen.active { display: block; }
+
+.app-header { text-align: center; padding: 20px 0 15px; }
+.app-logo {
+    font-size: 2.2rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.app-sub { font-size: 0.8rem; color: var(--text-soft); letter-spacing: 2px; margin-top: 5px; }
+
+/* آمار */
+.stats-box {
+    display: flex; justify-content: center; gap: 10px;
+    margin: 15px auto; max-width: 500px; flex-wrap: wrap;
+}
+.stat-item {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 100px;
+    flex: 1;
+}
+.stat-num { font-size: 1.5rem; font-weight: 700; color: var(--gold); display: block; }
+.stat-lbl { font-size: 0.75rem; color: var(--text-soft); margin-top: 3px; display: block; }
+
+.tabs {
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    padding: 15px 0; position: sticky; top: 0;
+    background: linear-gradient(180deg, var(--bg-main) 60%, transparent);
+    z-index: 50; margin: 0 -15px; padding-left: 15px; padding-right: 15px;
+}
+.tab {
+    padding: 10px 20px; border-radius: 30px;
+    background: rgba(255,210,122,0.08); border: 1px solid var(--border);
+    color: var(--text-main); cursor: pointer; transition: all .3s ease;
+    font-size: 0.9rem; font-family: inherit;
+}
+.tab:hover { background: rgba(255,210,122,0.18); }
+.tab.active { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: #1a0a08; font-weight: 700; box-shadow: 0 5px 25px rgba(255,210,122,0.4); }
+
+.panel { display: none; animation: fadeIn 0.5s ease; }
+.panel.active { display: block; }
+
+.section-title { text-align: center; color: var(--gold); font-size: 1.3rem; margin: 25px 0 20px; letter-spacing: 2px; }
+.section-title::before, .section-title::after { content: ' ❖ '; color: var(--gold-dark); }
+
+/* نمایش PDF */
+.pdf-viewer {
+    width: 100%; height: 80vh;
+    border-radius: 15px;
+    border: 2px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    background: var(--bg-soft);
+    display: block; margin: 0 auto 20px;
+}
+
+.pdf-fallback {
+    text-align: center; padding: 30px 20px;
+    background: rgba(255,210,122,0.05);
+    border: 1px dashed var(--border);
+    border-radius: 15px; margin-bottom: 20px;
+}
+.pdf-fallback p { color: var(--text-soft); margin-bottom: 15px; font-size: 0.95rem; line-height: 1.8; }
+.pdf-fallback a {
+    display: inline-block; padding: 12px 30px;
+    background: linear-gradient(135deg, #8b1a1a, #c98b3a, #ffd27a);
+    color: #1a0a08; text-decoration: none; border-radius: 30px;
+    font-weight: 700; transition: transform .3s;
+}
+.pdf-fallback a:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,210,122,0.4); }
+
+/* نشانک */
+.bookmark-bar {
+    display: flex; justify-content: center; gap: 10px;
+    margin-bottom: 20px; flex-wrap: wrap;
+}
+.bookmark-btn {
+    padding: 10px 20px; border-radius: 30px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    color: var(--gold); cursor: pointer;
+    font-family: inherit; font-size: 0.9rem; font-weight: 700;
+    transition: all .3s;
+}
+.bookmark-btn:hover {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #1a0a08;
+    transform: translateY(-3px);
+}
+.bookmark-btn.saved {
+    background: linear-gradient(135deg, #8b1a1a, #c98b3a);
+    color: #ffd27a;
+}
+
+/* بخش نظر */
+.comment-box {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 25px 22px; margin-bottom: 20px;
+}
+.comment-box h3 { color: var(--gold); margin-bottom: 15px; font-size: 1.1rem; text-align: center; }
+.comment-box textarea {
+    width: 100%; min-height: 120px; padding: 15px;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 15px; color: var(--text-main); font-family: inherit;
+    font-size: 1rem; line-height: 1.8; resize: vertical; outline: none; transition: border-color .3s;
+}
+.comment-box textarea:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(255,210,122,0.2); }
+.comment-box textarea::placeholder { color: var(--text-dim); }
+.comment-box input {
+    width: 100%; padding: 12px 15px; margin-bottom: 12px;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 15px; color: var(--text-main); font-family: inherit;
+    font-size: 0.95rem; outline: none; transition: border-color .3s;
+}
+.comment-box input:focus { border-color: var(--gold); }
+.comment-box input::placeholder { color: var(--text-dim); }
+
+.send-btn {
+    width: 100%; padding: 14px; margin-top: 15px;
+    background: linear-gradient(135deg, #8b1a1a, #c98b3a, #ffd27a);
+    background-size: 200% 200%; color: #1a0a08; border: none;
+    border-radius: 15px; font-size: 1.05rem; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    animation: btnGradient 4s ease infinite; transition: transform .2s;
+}
+.send-btn:active { transform: scale(0.97); }
+
+.success-msg {
+    display: none; margin-top: 15px; padding: 12px;
+    background: rgba(255,210,122,0.15); border: 1px solid var(--gold);
+    border-radius: 12px; color: var(--gold); text-align: center;
+    font-size: 0.95rem; animation: fadeIn 0.5s ease;
+}
+.success-msg.show { display: block; }
+
+/* لیست پیام‌های من */
+.my-messages {
+    margin-top: 20px;
+}
+.my-messages h4 {
+    color: var(--gold); margin-bottom: 12px;
+    font-size: 1rem; text-align: center;
+}
+.msg-item {
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+.msg-item .msg-name {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    display: block;
+}
+.msg-item .msg-text { color: var(--text-main); }
+.msg-item .msg-date {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    margin-top: 6px;
+    display: block;
+}
+
+.empty-msg {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    padding: 15px;
+}
+
+/* پخش‌کننده موسیقی */
+.music-bar {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(20,10,8,0.95);
+    border: 1px solid var(--border);
+    border-radius: 50px; padding: 10px 22px;
+    display: flex; align-items: center; gap: 14px; z-index: 100;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+}
+body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
+.music-btn {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: #1a0a08; transition: transform .3s;
+}
+.music-btn:hover { transform: scale(1.1); }
+.music-info { font-size: 0.8rem; color: var(--text-soft); }
+
+@media (max-width: 600px) {
+    .game-title { font-size: 26px; }
+    .logo-wrapper-main { width: 110px; height: 110px; }
+    .logo-circle { font-size: 50px; }
+    .logo-fallback { font-size: 50px; }
+    .cover-wrapper { height: 200px; }
+    .cover-fallback { font-size: 80px; }
+    .big-btn { font-size: 17px; padding: 14px 32px; }
+    .tab { padding: 8px 14px; font-size: 0.8rem; }
+    .music-bar { padding: 8px 16px; gap: 10px; }
+    .music-btn { width: 38px; height: 38px; font-size: 1rem; }
+    .pdf-viewer { height: 70vh; }
+    .ctrl-btn { width: 38px; height: 38px; font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ==================== کنترل‌های بالا ==================== -->
+<div class="top-controls">
+    <button class="ctrl-btn" id="themeBtn" title="حالت شب/روز">🌙</button>
+    <button class="ctrl-btn" id="fontUp" title="بزرگ‌تر">A+</button>
+    <button class="ctrl-btn" id="fontDown" title="کوچک‌تر">A−</button>
+    <button class="ctrl-btn" id="shareBtn" title="اشتراک‌گذاری">📤</button>
+</div>
+
+<!-- ==================== صفحه شروع ==================== -->
+<div id="startScreen" class="screen active">
+    <div class="start-container">
+        <div class="cover-wrapper" id="coverWrapper">
+            <div class="cover-fallback">🌹</div>
+            <div class="cover-overlay"></div>
+        </div>
+
+        <div class="logo-wrapper-main">
+            <div class="logo-circle" id="logoCircle">
+                <span class="logo-fallback">🌹</span>
+            </div>
+            <div class="photo-ring"></div>
+            <div class="photo-ring ring2"></div>
+        </div>
+
+        <h1 class="game-title">کانال لیلی</h1>
+        <p class="game-subtitle">دیوان عاشقان · مثنوی معنوی</p>
+
+        <div class="divider-line"></div>
+
+        <div class="info-box">
+            <div class="info-row">
+                <span class="info-icon">📜</span>
+                <span class="info-label">مثنوی معنوی</span>
+            </div>
+            <div class="info-row">
+                <span class="info-icon">🎵</span>
+                <span class="info-value">موسیقی سنتی</span>
+            </div>
+            <div class="info-row">
+                <span class="info-icon">💌</span>
+                <span class="info-value">پیام‌های عاشقانه برای لیلی</span>
+            </div>
+        </div>
+
+        <button id="startBtn" class="big-btn">✦ ورود به دیوان ✦</button>
+
+        <div class="eitaa-btns">
+            <a href="https://eitaa.com/leyli6060" target="_blank" class="eitaa-btn">🌹 کانال لیلی</a>
+            <a href="https://eitaa.com/Leyliiii20" target="_blank" class="eitaa-btn">💌 پیام به لیلی</a>
+        </div>
+
+        <div class="copyright">ساخته شده با ♥ برای کانال لیلی</div>
+    </div>
+</div>
+
+<!-- ==================== اپ اصلی ==================== -->
+<div id="appScreen" class="screen">
+    <div class="app-header">
+        <div class="app-logo">🌹 کانال لیلی</div>
+        <div class="app-sub">مثنوی معنوی</div>
+        <div class="eitaa-btns" style="margin-top:12px">
+            <a href="https://eitaa.com/leyli6060" target="_blank" class="eitaa-btn">🌹 کانال</a>
+            <a href="https://eitaa.com/Leyliiii20" target="_blank" class="eitaa-btn">💌 پیام</a>
+        </div>
+    </div>
+
+    <!-- آمار -->
+    <div class="stats-box">
+        <div class="stat-item">
+            <span class="stat-num" id="visitCount">0</span>
+            <span class="stat-lbl">👁 بازدید</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num" id="msgCount">0</span>
+            <span class="stat-lbl">💌 پیام‌ها</span>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="book">📖 کتاب</div>
+        <div class="tab" data-tab="comment">💌 پیام به لیلی</div>
+        <div class="tab" data-tab="myMsg">📨 پیام‌های من</div>
+    </div>
+
+    <!-- کتاب -->
+    <div class="panel active" id="book">
+        <div class="section-title">مثنوی معنوی · مولانا</div>
+
+        <div class="bookmark-bar">
+            <button class="bookmark-btn" id="bookmarkBtn">🔖 نشانک صفحه</button>
+        </div>
+
+        <object
+            class="pdf-viewer"
+            data="book.pdf#toolbar=1&navpanes=0&scrollbar=1"
+            type="application/pdf">
+            <div class="pdf-fallback">
+                <p>📖 برای دیدن کتاب، روی دکمه زیر بزن:</p>
+                <a href="book.pdf" target="_blank">باز کردن کتاب در پنجره جدید</a>
+            </div>
+        </object>
+    </div>
+
+    <!-- نظر -->
+    <div class="panel" id="comment">
+        <div class="section-title">پیام به لیلی</div>
+        <div class="comment-box">
+            <h3>💌 هر چی توی دلت هست برای لیلی بنویس</h3>
+            <input type="text" id="nameInput" placeholder="اسمت (اختیاری)">
+            <textarea id="commentText" placeholder="پیام عاشقانه‌ات، شعری که دوست داری، یا هر حرفی که دل تنگت کرده..."></textarea>
+            <button class="send-btn" id="sendBtn">✦ ارسال برای لیلی ✦</button>
+            <div class="success-msg" id="successMsg">
+                🌹 پیامت آماده شد! ایتا باز می‌شه، فقط دکمه ارسال رو بزن.
+            </div>
+        </div>
+    </div>
+
+    <!-- پیام‌های من -->
+    <div class="panel" id="myMsg">
+        <div class="section-title">پیام‌های من</div>
+        <div class="my-messages" id="myMessagesList">
+            <div class="empty-msg">هنوز پیامی نفرستادی 💌</div>
+        </div>
+    </div>
+</div>
+
+<div class="music-bar">
+    <button class="music-btn" id="musicBtn">▶</button>
+    <div class="music-info">موسیقی سنتی</div>
+</div>
+
+<script>
+/* ==================== تم شب / روز ==================== */
+(function initTheme() {
+    const themeBtn = document.getElementById('themeBtn');
+    const saved = localStorage.getItem('lily_theme');
+    if (saved === 'light') {
+        document.body.classList.add('light-mode');
+        themeBtn.textContent = '☀️';
+    } else {
+        themeBtn.textContent = '🌙';
+    }
+    
+    themeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeBtn.textContent = isLight ? '☀️' : '🌙';
+        localStorage.setItem('lily_theme', isLight ? 'light' : 'dark');
+    });
+})();
+
+/* ==================== بزرگ/کوچک فونت ==================== */
+(function initFont() {
+    let scale = parseFloat(localStorage.getItem('lily_font') || '1');
+    
+    function apply() {
+        document.documentElement.style.setProperty('--font-scale', scale);
+        localStorage.setItem('lily_font', scale);
+    }
+    apply();
+    
+    document.getElementById('fontUp').addEventListener('click', () => {
+        if (scale < 1.5) { scale += 0.1; apply(); }
+    });
+    document.getElementById('fontDown').addEventListener('click', () => {
+        if (scale > 0.7) { scale -= 0.1; apply(); }
+    });
+})();
+
+/* ==================== اشتراک‌گذاری ==================== */
+document.getElementById('shareBtn').addEventListener('click', async () => {
+    const shareData = {
+        title: '🌹 کانال لیلی | دیوان عاشقان',
+        text: 'کانال لیلی - مثنوی معنوی، موسیقی سنتی و پیام‌های عاشقانه',
+        url: 'https://eitaa.com/leyli6060'
+    };
+    try {
+        if (navigator.share) {
+            await navigator.share(shareData);
+        } else {
+            await navigator.clipboard.writeText(shareData.url);
+            alert('🌹 لینک کانال کپی شد!');
+        }
+    } catch (e) {
+        // کاربر انصراف داد
+    }
+});
+
+/* ==================== آمار بازدید ==================== */
+(function initStats() {
+    let visits = parseInt(localStorage.getItem('lily_visits') || '0') + 1;
+    localStorage.setItem('lily_visits', visits);
+    document.getElementById('visitCount').textContent = visits;
+    
+    const messages = JSON.parse(localStorage.getItem('lily_messages') || '[]');
+    document.getElementById('msgCount').textContent = messages.length;
+})();
+
+/* ==================== نشانک ==================== */
+(function initBookmark() {
+    const btn = document.getElementById('bookmarkBtn');
+    const saved = localStorage.getItem('lily_bookmark');
+    if (saved) {
+        btn.classList.add('saved');
+        btn.textContent = '🔖 نشانک ذخیره شد';
+    }
+    
+    btn.addEventListener('click', () => {
+        if (btn.classList.contains('saved')) {
+            localStorage.removeItem('lily_bookmark');
+            btn.classList.remove('saved');
+            btn.textContent = '🔖 نشانک صفحه';
+        } else {
+            localStorage.setItem('lily_bookmark', new Date().toISOString());
+            btn.classList.add('saved');
+            btn.textContent = '🔖 نشانک ذخیره شد';
+        }
+    });
+})();
+
+/* ==================== بارگذاری عکس کاور ==================== */
+(function loadCover() {
+    var wrapper = document.getElementById('coverWrapper');
+    if (!wrapper) return;
+    var img = new Image();
+    img.onload = function() {
+        wrapper.innerHTML = '';
+        wrapper.appendChild(img);
+        var overlay = document.createElement('div');
+        overlay.className = 'cover-overlay';
+        wrapper.appendChild(overlay);
+    };
+    img.src = 'cover.jpg';
+})();
+
+/* ==================== بارگذاری لوگو ==================== */
+(function loadLogo() {
+    var circle = document.getElementById('logoCircle');
+    if (!circle) return;
+    var img = new Image();
+    img.onload = function() {
+        circle.innerHTML = '';
+        circle.appendChild(img);
+    };
+    img.src = 'logo.png';
+})();
+
+/* ==================== ناوبری ==================== */
+const startScreen = document.getElementById('startScreen');
+const appScreen = document.getElementById('appScreen');
+
+document.getElementById('startBtn').addEventListener('click', () => {
+    startMusic();
+    startScreen.classList.remove('active');
+    appScreen.classList.add('active');
+    window.scrollTo(0, 0);
+});
+
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+});
+
+/* ==================== موسیقی ==================== */
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicBtn');
+let playing = false;
+
+function startMusic() {
+    if (!audio) return;
+    audio.volume = 0.35;
+    audio.play().then(() => {
+        playing = true;
+        btn.textContent = '❚❚';
+    }).catch(() => {});
+}
+
+btn.addEventListener('click', () => {
+    if (playing) {
+        audio.pause();
+        btn.textContent = '▶';
+        playing = false;
+    } else {
+        startMusic();
+    }
+});
+
+/* ==================== ارسال پیام ==================== */
+const msgCountEl = document.getElementById('msgCount');
+
+document.getElementById('sendBtn').addEventListener('click', () => {
+    const name = document.getElementById('nameInput').value.trim() || 'یک عاشق ناشناس';
+    const text = document.getElementById('commentText').value.trim();
+
+    if (!text) {
+        alert('🌹 لطفاً پیامت رو بنویس');
+        return;
+    }
+
+    const messages = JSON.parse(localStorage.getItem('lily_messages') || '[]');
+    messages.push({ name, text, date: new Date().toISOString() });
+    localStorage.setItem('lily_messages', JSON.stringify(messages));
+
+    // به‌روزرسانی آمار
+    msgCountEl.textContent = messages.length;
+
+    // به‌روزرسانی لیست پیام‌های من
+    renderMyMessages();
+
+    const fullMessage = `🌹 پیام از: ${name}\n\n${text}`;
+    const eitaaUrl = `https://eitaa.com/Leyliiii20?text=${encodeURIComponent(fullMessage)}`;
+
+    const successMsg = document.getElementById('successMsg');
+    successMsg.classList.add('show');
+    setTimeout(() => successMsg.classList.remove('show'), 5000);
+
+    setTimeout(() => window.open(eitaaUrl, '_blank'), 800);
+
+    document.getElementById('commentText').value = '';
+    document.getElementById('nameInput').value = '';
+});
+
+/* ==================== نمایش پیام‌های من ==================== */
+function renderMyMessages() {
+    const list = document.getElementById('myMessagesList');
+    const messages = JSON.parse(localStorage.getItem('lily_messages') || '[]');
+    
+    if (messages.length === 0) {
+        list.innerHTML = '<div class="empty-msg">هنوز پیامی نفرستادی 💌</div>';
+        return;
+    }
+    
+    list.innerHTML = '';
+    // نمایش از جدید به قدیم
+    messages.slice().reverse().forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'msg-item';
+        const date = new Date(m.date);
+        const dateStr = date.toLocaleDateString('fa-IR') + ' - ' + date.toLocaleTimeString('fa-IR', {hour:'2-digit', minute:'2-digit'});
+        div.innerHTML = `
+            <span class="msg-name">👤 ${m.name}</span>
+            <span class="msg-text">${m.text}</span>
+            <span class="msg-date">🕐 ${dateStr}</span>
+        `;
+        list.appendChild(div);
+    });
+}
+renderMyMessages();
+
+/* ==================== ذرات طلایی ==================== */
+for (let i = 0; i < 35; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.animationDuration = (8 + Math.random() * 14) + 's';
+    s.style.animationDelay = Math.random() * 12 + 's';
+    document.body.appendChild(s);
+}
+</script>
+</body>
+</html>
