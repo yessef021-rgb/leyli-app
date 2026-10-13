@@ -71,7 +71,7 @@ body.light-mode .bg-layer {
     to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
-/* ==================== نوار کنترل بالا (شب/روز، فونت) ==================== */
+/* ==================== نوار کنترل بالا ==================== */
 .top-controls {
     position: fixed; top: 15px; left: 15px;
     display: flex; gap: 8px;
@@ -258,18 +258,26 @@ body.light-mode .bg-layer {
 .section-title { text-align: center; color: var(--gold); font-size: 1.3rem; margin: 25px 0 20px; letter-spacing: 2px; }
 .section-title::before, .section-title::after { content: ' ❖ '; color: var(--gold-dark); }
 
-/* نمایش PDF */
-.pdf-viewer {
-    width: 100%; height: 80vh;
+/* ==================== نمایش PDF (PDF.js) ==================== */
+.pdf-container {
+    width: 100%;
+    margin: 0 auto 15px;
     border-radius: 15px;
+    overflow: hidden;
     border: 2px solid var(--border);
     box-shadow: 0 10px 40px rgba(0,0,0,0.6);
     background: var(--bg-soft);
-    display: block; margin: 0 auto 20px;
+}
+.pdf-viewer {
+    width: 100%;
+    height: 80vh;
+    border: none;
+    display: block;
+    background: var(--bg-soft);
 }
 
 .pdf-fallback {
-    text-align: center; padding: 30px 20px;
+    text-align: center; padding: 20px;
     background: rgba(255,210,122,0.05);
     border: 1px dashed var(--border);
     border-radius: 15px; margin-bottom: 20px;
@@ -420,7 +428,7 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     .tab { padding: 8px 14px; font-size: 0.8rem; }
     .music-bar { padding: 8px 16px; gap: 10px; }
     .music-btn { width: 38px; height: 38px; font-size: 1rem; }
-    .pdf-viewer { height: 70vh; }
+    .pdf-viewer { height: 75vh; }
     .ctrl-btn { width: 38px; height: 38px; font-size: 1rem; }
 }
 </style>
@@ -524,15 +532,20 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
             <button class="bookmark-btn" id="bookmarkBtn">🔖 نشانک صفحه</button>
         </div>
 
-        <object
-            class="pdf-viewer"
-            data="book.pdf#toolbar=1&navpanes=0&scrollbar=1"
-            type="application/pdf">
-            <div class="pdf-fallback">
-                <p>📖 برای دیدن کتاب، روی دکمه زیر بزن:</p>
-                <a href="book.pdf" target="_blank">باز کردن کتاب در پنجره جدید</a>
-            </div>
-        </object>
+        <!-- PDF با PDF.js — داخل خود سایت باز میشه -->
+        <div class="pdf-container">
+            <iframe
+                class="pdf-viewer"
+                id="pdfFrame"
+                src="https://mozilla.github.io/pdf.js/web/viewer.html?file=book.pdf"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="pdf-fallback">
+            <p>📖 اگه کتاب باز نشد، روی دکمه زیر بزن:</p>
+            <a href="book.pdf" target="_blank">باز کردن کتاب در پنجره جدید</a>
+        </div>
     </div>
 
     <!-- نظر -->
@@ -740,10 +753,8 @@ document.getElementById('sendBtn').addEventListener('click', () => {
     messages.push({ name, text, date: new Date().toISOString() });
     localStorage.setItem('lily_messages', JSON.stringify(messages));
 
-    // به‌روزرسانی آمار
     msgCountEl.textContent = messages.length;
 
-    // به‌روزرسانی لیست پیام‌های من
     renderMyMessages();
 
     const fullMessage = `🌹 پیام از: ${name}\n\n${text}`;
@@ -770,7 +781,6 @@ function renderMyMessages() {
     }
     
     list.innerHTML = '';
-    // نمایش از جدید به قدیم
     messages.slice().reverse().forEach(m => {
         const div = document.createElement('div');
         div.className = 'msg-item';
