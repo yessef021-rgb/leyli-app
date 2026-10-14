@@ -6,7 +6,6 @@
 <title>🌹 کانال لیلی | دیوان عاشقان</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-/* ==================== تم روز (پیش‌فرض) ==================== */
 :root {
     --bg-main: #0d0705;
     --bg-card: rgba(35,18,12,0.96);
@@ -20,7 +19,6 @@
     --border: rgba(255,210,122,0.35);
     --font-scale: 1;
 }
-
 body.light-mode {
     --bg-main: #fdf6e8;
     --bg-card: rgba(255,250,240,0.98);
@@ -30,15 +28,12 @@ body.light-mode {
     --text-dim: #a08050;
     --gold: #b8860b;
     --gold-dark: #8b6508;
-    --red: #8b1a1a;
     --border: rgba(184,134,11,0.5);
 }
-
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Vazirmatn', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
 html, body { overflow-x: hidden; width: 100%; min-height: 100%; }
 body { background: var(--bg-main); color: var(--text-main); position: relative; transition: background 0.4s, color 0.4s; font-size: calc(16px * var(--font-scale)); }
 
-/* ==================== پس‌زمینه ==================== */
 .bg-layer {
     position: fixed; inset: 0; z-index: -2;
     background:
@@ -68,7 +63,6 @@ body.light-mode .bg-layer {
     to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
-/* ==================== کنترل‌های بالا ==================== */
 .top-controls {
     position: fixed; top: 15px; left: 15px;
     display: flex; gap: 8px; z-index: 999;
@@ -88,7 +82,6 @@ body.light-mode .bg-layer {
 }
 .ctrl-btn:active { transform: scale(0.92); }
 
-/* ==================== صفحه شروع ==================== */
 .screen { display: none; min-height: 100vh; padding: 20px 15px 100px; animation: fadeIn 0.6s ease; position: relative; z-index: 2; }
 .screen.active { display: flex; flex-direction: column; align-items: center; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
@@ -193,7 +186,6 @@ body.light-mode .bg-layer {
 
 .copyright { font-size: 12px; color: var(--text-dim); margin-top: 18px; }
 
-/* ==================== اپ اصلی ==================== */
 #appScreen { display: none; padding: 15px 15px 120px; min-height: 100vh; }
 #appScreen.active { display: block; }
 
@@ -235,7 +227,6 @@ body.light-mode .bg-layer {
 .section-title { text-align: center; color: var(--gold); font-size: 1.3rem; margin: 25px 0 20px; letter-spacing: 2px; }
 .section-title::before, .section-title::after { content: ' ❖ '; color: var(--gold-dark); }
 
-/* ==================== کتاب ==================== */
 .book-text-container {
     background: var(--bg-soft);
     border: 2px solid var(--border);
@@ -363,7 +354,6 @@ body.light-mode .bg-layer {
     transform: translateY(-3px);
 }
 
-/* Loading State */
 .book-loading {
     text-align: center;
     padding: 60px 20px;
@@ -381,7 +371,6 @@ body.light-mode .bg-layer {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Progress bar */
 .book-progress {
     text-align: center;
     padding: 30px 20px;
@@ -418,7 +407,6 @@ body.light-mode .bg-layer {
     color: var(--text-soft);
 }
 
-/* ==================== نشانک ==================== */
 .bookmark-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .bookmark-btn {
     padding: 10px 20px; border-radius: 30px;
@@ -436,7 +424,6 @@ body.light-mode .bg-layer {
     color: #ffd27a;
 }
 
-/* ==================== جستجو ==================== */
 .search-box {
     max-width: 750px;
     margin: 0 auto 18px;
@@ -560,7 +547,6 @@ body.light-mode .bg-layer {
     text-align: center;
 }
 
-/* ==================== تیترهای پیشنهادی ==================== */
 .suggest-box {
     max-width: 750px;
     margin: 0 auto 18px;
@@ -641,7 +627,6 @@ mark.search-highlight.active {
     font-weight: 700;
 }
 
-/* ==================== نظر ==================== */
 .comment-box {
     background: var(--bg-soft);
     border: 1px solid var(--border);
@@ -682,7 +667,6 @@ mark.search-highlight.active {
 }
 .success-msg.show { display: block; }
 
-/* ==================== پیام‌های من ==================== */
 .my-messages { margin-top: 20px; }
 .msg-item {
     background: var(--bg-main); border: 1px solid var(--border);
@@ -694,7 +678,6 @@ mark.search-highlight.active {
 .msg-item .msg-date { color: var(--text-dim); font-size: 0.75rem; margin-top: 6px; display: block; }
 .empty-msg { text-align: center; color: var(--text-dim); font-size: 0.9rem; padding: 15px; }
 
-/* ==================== موسیقی ==================== */
 .music-bar {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
     background: rgba(20,10,8,0.95); border: 1px solid var(--border);
@@ -747,7 +730,6 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     <button class="ctrl-btn" id="shareBtn" title="اشتراک‌گذاری">📤</button>
 </div>
 
-<!-- ==================== صفحه شروع ==================== -->
 <div id="startScreen" class="screen active">
     <div class="start-container">
         <div class="cover-wrapper" id="coverWrapper">
@@ -794,7 +776,6 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     </div>
 </div>
 
-<!-- ==================== اپ اصلی ==================== -->
 <div id="appScreen" class="screen">
     <div class="app-header">
         <div class="app-logo">🌹 کانال لیلی</div>
@@ -822,11 +803,9 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
         <div class="tab" data-tab="myMsg">📨 پیام‌های من</div>
     </div>
 
-    <!-- ==================== کتاب ==================== -->
     <div class="panel active" id="book">
         <div class="section-title">مثنوی معنوی · مولانا</div>
 
-        <!-- کادر جستجو -->
         <div class="search-box">
             <div class="search-input-wrapper">
                 <span class="search-icon">🔍</span>
@@ -840,12 +819,9 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
             </div>
         </div>
 
-        <!-- چیپ‌های پیشنهادی -->
         <div class="suggest-box">
             <div class="suggest-title">✨ جستجوهای پیشنهادی:</div>
-            <div class="suggest-chips" id="suggestChips">
-                <!-- چیپ‌ها با JS پر می‌شن -->
-            </div>
+            <div class="suggest-chips" id="suggestChips"></div>
         </div>
 
         <div class="bookmark-bar">
@@ -857,7 +833,6 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
             <button class="book-ctrl-btn" id="alignBtn">↔ تغییر چینش</button>
         </div>
 
-        <!-- محتوای کتاب از ۶ فایل لود میشه -->
         <div class="book-text-container" id="bookText">
             <div class="book-progress" id="bookProgress">
                 <div class="spinner"></div>
@@ -868,10 +843,8 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
                 <p class="progress-text" id="progressText">آماده‌سازی...</p>
             </div>
         </div>
-
     </div>
 
-    <!-- ==================== پیام ==================== -->
     <div class="panel" id="comment">
         <div class="section-title">پیام به لیلی</div>
         <div class="comment-box">
@@ -885,7 +858,6 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
         </div>
     </div>
 
-    <!-- ==================== پیام‌های من ==================== -->
     <div class="panel" id="myMsg">
         <div class="section-title">پیام‌های من</div>
         <div class="my-messages" id="myMessagesList">
@@ -965,7 +937,7 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
     document.getElementById('msgCount').textContent = messages.length;
 })();
 
-/* ==================== نشانک + ذخیره محل خواندن ==================== */
+/* ==================== نشانک ==================== */
 (function initBookmark() {
     const btn = document.getElementById('bookmarkBtn');
     const container = document.getElementById('bookText');
@@ -1030,7 +1002,7 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
     });
 })();
 
-/* ==================== لود کتاب از ۶ فایل ==================== */
+/* ==================== لود کتاب ==================== */
 const BOOK_PARTS = [
     'part_1.html',
     'part_2.html',
@@ -1039,6 +1011,36 @@ const BOOK_PARTS = [
     'part_5.html',
     'part_6.html'
 ];
+
+// تابع تمیز کردن HTML: حذف تگ‌های html/head/body/style/script
+function cleanHTML(html) {
+    // حذف DOCTYPE
+    html = html.replace(/<!DOCTYPE[^>]*>/gi, '');
+    // حذف تگ‌های head/body/html
+    html = html.replace(/<html[^>]*>/gi, '');
+    html = html.replace(/<\/html>/gi, '');
+    html = html.replace(/<head[^>]*>[\s\S]*?<\/head>/gi, '');
+    html = html.replace(/<body[^>]*>/gi, '');
+    html = html.replace(/<\/body>/gi, '');
+    // حذف style و script
+    html = html.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+    html = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+    // حذف کامنت‌های conditional
+    html = html.replace(/<!--\[if[\s\S]*?<!\[endif\]-->/gi, '');
+    html = html.replace(/<!--[\s\S]*?-->/g, '');
+    // اصلاح تگ‌های p خراب: <p <span ...> => <p><span ...>
+    html = html.replace(/<p\s+<span/gi, '<p><span');
+    html = html.replace(/<p\s+<div/gi, '<p><div');
+    // اصلاح <p > که فاصله اضافه داره
+    html = html.replace(/<p\s+>/gi, '<p>');
+    // اصلاح تگ‌های span/div که بسته نشدن رو به مرورگر واگذار می‌کنیم
+    // حذف style attributes خراب
+    html = html.replace(/\s*style='font-family:"Courier New"'/gi, '');
+    html = html.replace(/\s*lang=FA/gi, '');
+    html = html.replace(/\s*dir=LTR/gi, '');
+    html = html.replace(/\s*dir=RTL/gi, '');
+    return html;
+}
 
 async function loadBook() {
     const container = document.getElementById('bookText');
@@ -1056,7 +1058,6 @@ async function loadBook() {
         if (progressText) progressText.textContent = `لود بخش ${toFa(done)} از ${toFa(total)} (${toFa(percent)}٪)`;
     }
 
-    // لود موازی همه بخش‌ها
     const promises = BOOK_PARTS.map((part, index) => {
         return fetch(part)
             .then(res => {
@@ -1079,7 +1080,6 @@ async function loadBook() {
     const results = await Promise.all(promises);
     results.sort((a, b) => a.index - b.index);
 
-    // پاک کردن container
     container.innerHTML = '';
 
     let allHtml = '';
@@ -1088,7 +1088,7 @@ async function loadBook() {
             if (i > 0) {
                 allHtml += `<div style="text-align:center;margin:30px 0;color:var(--gold-dark);font-size:1.5rem;">❖ ❖ ❖</div>`;
             }
-            allHtml += result.html;
+            allHtml += cleanHTML(result.html);
         }
     });
 
@@ -1102,7 +1102,6 @@ async function loadBook() {
             }, 300);
         }
 
-        // فعال کردن جستجو بعد از لود کامل
         if (searchInput) {
             searchInput.disabled = false;
             searchInput.placeholder = 'جستجو در کتاب...';
@@ -1110,22 +1109,20 @@ async function loadBook() {
 
         buildSuggestChips(container);
 
-        console.log(`✅ کتاب با موفقیت لود شد (${successCount} بخش از ${BOOK_PARTS.length})`);
+        console.log(`✅ کتاب لود شد (${successCount} از ${BOOK_PARTS.length})`);
 
         if (failCount > 0) {
             console.warn(`⚠️ ${failCount} بخش لود نشد`);
             const warn = document.createElement('div');
             warn.style.cssText = 'text-align:center;padding:10px;background:rgba(255,210,122,0.1);border:1px solid var(--border);border-radius:10px;color:var(--text-soft);font-size:0.85rem;margin-bottom:15px;';
-            warn.textContent = `⚠️ ${toFa(failCount)} بخش از کتاب لود نشد. اتصال اینترنتت رو چک کن.`;
+            warn.textContent = `⚠️ ${toFa(failCount)} بخش از کتاب لود نشد.`;
             container.insertBefore(warn, container.firstChild);
         }
     } else {
         container.innerHTML = `
             <div style="text-align:center;padding:40px;color:var(--text-soft);">
                 <p style="font-size:3rem;margin-bottom:15px;">📄</p>
-                <p style="color:var(--gold);font-size:1.1rem;margin-bottom:10px;">
-                    کتاب لود نشد
-                </p>
+                <p style="color:var(--gold);font-size:1.1rem;margin-bottom:10px;">کتاب لود نشد</p>
                 <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.8;">
                     لطفاً اینترنتت رو چک کن و صفحه رو رفرش کن.<br>
                     فایل‌های part_1.html تا part_6.html باید کنار index.html باشن.
@@ -1222,7 +1219,7 @@ function buildSuggestChips(container) {
         const container = document.getElementById('bookText');
         if (!container) return;
 
-        if (input.disabled) return; // اگه کتاب هنوز لود نشده
+        if (input.disabled) return;
 
         if (!query || query.length < 2) {
             navBox.style.display = 'none';
@@ -1482,11 +1479,22 @@ function renderMyMessages() {
         div.className = 'msg-item';
         const date = new Date(m.date);
         const dateStr = date.toLocaleDateString('fa-IR') + ' - ' + date.toLocaleTimeString('fa-IR', {hour:'2-digit', minute:'2-digit'});
-        div.innerHTML = `
-            <span class="msg-name">👤 ${m.name}</span>
-            <span class="msg-text">${m.text}</span>
-            <span class="msg-date">🕐 ${dateStr}</span>
-        `;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'msg-name';
+        nameSpan.textContent = '👤 ' + m.name;
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'msg-text';
+        textSpan.textContent = m.text;
+
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'msg-date';
+        dateSpan.textContent = '🕐 ' + dateStr;
+
+        div.appendChild(nameSpan);
+        div.appendChild(textSpan);
+        div.appendChild(dateSpan);
         list.appendChild(div);
     });
 }
