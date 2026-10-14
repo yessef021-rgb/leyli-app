@@ -260,7 +260,6 @@ body.light-mode .bg-layer {
     border-radius: 10px;
 }
 
-/* استایل برای محتوای لود شده */
 .book-text-container h1,
 .book-text-container h2,
 .book-text-container h3,
@@ -382,7 +381,7 @@ body.light-mode .bg-layer {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Progress bar برای لود بخش‌ها */
+/* Progress bar */
 .book-progress {
     text-align: center;
     padding: 30px 20px;
@@ -627,7 +626,6 @@ body.light-mode .bg-layer {
     border-color: var(--gold);
 }
 
-/* هایلایت نتایج */
 mark.search-highlight {
     background: rgba(255,210,122,0.35);
     color: var(--text-main);
@@ -902,6 +900,11 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
 </div>
 
 <script>
+/* ==================== تبدیل عدد به فارسی ==================== */
+function toFa(num) {
+    return String(num).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
 /* ==================== تم ==================== */
 (function initTheme() {
     const themeBtn = document.getElementById('themeBtn');
@@ -1029,12 +1032,12 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
 
 /* ==================== لود کتاب از ۶ فایل ==================== */
 const BOOK_PARTS = [
-    'book1.html',
-    'book2.html',
-    'book3.html',
-    'book4.html',
-    'book5.html',
-    'book6.html'
+    'part_1.html',
+    'part_2.html',
+    'part_3.html',
+    'part_4.html',
+    'part_5.html',
+    'part_6.html'
 ];
 
 async function loadBook() {
@@ -1044,13 +1047,14 @@ async function loadBook() {
     const searchInput = document.getElementById('searchInput');
     if (!container) return;
 
-    // ساخت یک wrapper موقت برای هر بخش
-    // اول container رو خالی می‌کنیم (progress رو نگه می‌داریم)
-    // بعد بخش‌ها رو دونه دونه اضافه می‌کنیم
-
-    const loadedParts = []; // آرایه بخش‌های لود شده
     let successCount = 0;
     let failCount = 0;
+
+    function updateProgress(done, total) {
+        const percent = Math.round((done / total) * 100);
+        if (progressFill) progressFill.style.width = percent + '%';
+        if (progressText) progressText.textContent = `لود بخش ${toFa(done)} از ${toFa(total)} (${toFa(percent)}٪)`;
+    }
 
     // لود موازی همه بخش‌ها
     const promises = BOOK_PARTS.map((part, index) => {
@@ -1072,27 +1076,15 @@ async function loadBook() {
             });
     });
 
-    function updateProgress(done, total) {
-        const percent = Math.round((done / total) * 100);
-        if (progressFill) progressFill.style.width = percent + '%';
-        if (progressText) progressText.textContent = `لود بخش ${toFa(done)} از ${toFa(total)} (${toFa(percent)}٪)`;
-    }
-
-    // صبر می‌کنیم همه با هم تموم شن
     const results = await Promise.all(promises);
-
-    // مرتب‌سازی بر اساس index
     results.sort((a, b) => a.index - b.index);
 
-    // حالا محتوا رو دونه دونه اضافه می‌کنیم
-    // اول container رو خالی می‌کنیم (progress می‌ره)
+    // پاک کردن container
     container.innerHTML = '';
 
     let allHtml = '';
-
     results.forEach((result, i) => {
         if (result.ok && result.html) {
-            // اضافه کردن جداکننده بین بخش‌ها
             if (i > 0) {
                 allHtml += `<div style="text-align:center;margin:30px 0;color:var(--gold-dark);font-size:1.5rem;">❖ ❖ ❖</div>`;
             }
@@ -1103,7 +1095,6 @@ async function loadBook() {
     if (allHtml) {
         container.innerHTML = allHtml;
 
-        // بازیابی محل خواندن
         const savedPos = parseInt(localStorage.getItem('lily_read_pos') || '0');
         if (savedPos > 0) {
             setTimeout(() => {
@@ -1111,27 +1102,24 @@ async function loadBook() {
             }, 300);
         }
 
-        // فعال کردن جستجو
+        // فعال کردن جستجو بعد از لود کامل
         if (searchInput) {
             searchInput.disabled = false;
             searchInput.placeholder = 'جستجو در کتاب...';
         }
 
-        // ساخت چیپ‌های پیشنهادی
         buildSuggestChips(container);
 
         console.log(`✅ کتاب با موفقیت لود شد (${successCount} بخش از ${BOOK_PARTS.length})`);
 
         if (failCount > 0) {
             console.warn(`⚠️ ${failCount} بخش لود نشد`);
-            // نمایش هشدار کوچیک بالای کتاب
             const warn = document.createElement('div');
             warn.style.cssText = 'text-align:center;padding:10px;background:rgba(255,210,122,0.1);border:1px solid var(--border);border-radius:10px;color:var(--text-soft);font-size:0.85rem;margin-bottom:15px;';
             warn.textContent = `⚠️ ${toFa(failCount)} بخش از کتاب لود نشد. اتصال اینترنتت رو چک کن.`;
             container.insertBefore(warn, container.firstChild);
         }
     } else {
-        // هیچ بخشی لود نشد
         container.innerHTML = `
             <div style="text-align:center;padding:40px;color:var(--text-soft);">
                 <p style="font-size:3rem;margin-bottom:15px;">📄</p>
@@ -1140,18 +1128,13 @@ async function loadBook() {
                 </p>
                 <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.8;">
                     لطفاً اینترنتت رو چک کن و صفحه رو رفرش کن.<br>
-                    فایل‌های book1.html تا book6.html باید کنار index.html باشن.
+                    فایل‌های part_1.html تا part_6.html باید کنار index.html باشن.
                 </p>
             </div>
         `;
     }
 }
 
-function toFa(num) {
-    return String(num).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-}
-
-// اجرای لود کتاب
 loadBook();
 
 /* ==================== ساخت چیپ‌های پیشنهادی ==================== */
@@ -1159,13 +1142,11 @@ function buildSuggestChips(container) {
     const chipsBox = document.getElementById('suggestChips');
     if (!chipsBox) return;
 
-    // تیترهای ثابت مهم
     const fixedTitles = [
         'دفتر اول', 'دفتر دوم', 'دفتر سوم', 'دفتر چهارم', 'دفتر پنجم', 'دفتر ششم',
         'مقدمه دفتر', 'نی نامه', 'حکایت', 'تفسیر', 'قصه'
     ];
 
-    // استخراج خودکار تیترها از داخل کتاب
     const autoTitles = new Set();
     const allElements = container.querySelectorAll('p, h1, h2, h3, h4, h5, div');
     allElements.forEach(el => {
@@ -1241,7 +1222,7 @@ function buildSuggestChips(container) {
         const container = document.getElementById('bookText');
         if (!container) return;
 
-        if (input.disabled) return; // اگه کتاب هنوز لود نشده، کاری نکن
+        if (input.disabled) return; // اگه کتاب هنوز لود نشده
 
         if (!query || query.length < 2) {
             navBox.style.display = 'none';
