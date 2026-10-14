@@ -269,7 +269,6 @@ body.light-mode .bg-layer {
 .book-text-container h3 { font-size: 1.35rem !important; }
 
 .book-text-container p,
-.book-text-container div:not(.book-text-container),
 .book-text-container span {
     color: var(--text-main) !important;
     line-height: 2.2 !important;
@@ -277,6 +276,11 @@ body.light-mode .bg-layer {
     font-size: 1.05rem !important;
     direction: rtl !important;
     text-align: right !important;
+}
+
+.book-text-container div {
+    color: var(--text-main);
+    direction: rtl;
 }
 
 .book-text-container img {
@@ -1012,34 +1016,51 @@ const BOOK_PARTS = [
     'part_6.html'
 ];
 
-// تابع تمیز کردن HTML: حذف تگ‌های html/head/body/style/script
+// تابع تمیز کردن HTML
 function cleanHTML(html) {
+    if (!html) return '';
+
     // حذف DOCTYPE
     html = html.replace(/<!DOCTYPE[^>]*>/gi, '');
-    // حذف تگ‌های head/body/html
-    html = html.replace(/<html[^>]*>/gi, '');
-    html = html.replace(/<\/html>/gi, '');
+
+    // حذف تگ‌های html/head/body
+    html = html.replace(/<\/?html[^>]*>/gi, '');
     html = html.replace(/<head[^>]*>[\s\S]*?<\/head>/gi, '');
-    html = html.replace(/<body[^>]*>/gi, '');
-    html = html.replace(/<\/body>/gi, '');
+    html = html.replace(/<\/?body[^>]*>/gi, '');
+
     // حذف style و script
     html = html.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
     html = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-    // حذف کامنت‌های conditional
+
+    // حذف کامنت‌ها
     html = html.replace(/<!--\[if[\s\S]*?<!\[endif\]-->/gi, '');
     html = html.replace(/<!--[\s\S]*?-->/g, '');
-    // اصلاح تگ‌های p خراب: <p <span ...> => <p><span ...>
+
+    // حذف اتریبیوت‌های خراب
+    html = html.replace(/\s*lang\s*=\s*['"]?[A-Za-z]+['"]?/gi, '');
+    html = html.replace(/\s*dir\s*=\s*['"]?[A-Za-z]+['"]?/gi, '');
+    html = html.replace(/\s*style\s*=\s*['"][^'"]*['"]/gi, '');
+
+    // اصلاح تگ‌های p خراب
     html = html.replace(/<p\s+<span/gi, '<p><span');
     html = html.replace(/<p\s+<div/gi, '<p><div');
-    // اصلاح <p > که فاصله اضافه داره
-    html = html.replace(/<p\s+>/gi, '<p>');
-    // اصلاح تگ‌های span/div که بسته نشدن رو به مرورگر واگذار می‌کنیم
-    // حذف style attributes خراب
-    html = html.replace(/\s*style='font-family:"Courier New"'/gi, '');
-    html = html.replace(/\s*lang=FA/gi, '');
-    html = html.replace(/\s*dir=LTR/gi, '');
-    html = html.replace(/\s*dir=RTL/gi, '');
-    return html;
+    html = html.replace(/<p\s+<p/gi, '<p><p');
+    html = html.replace(/<p\s*>/gi, '<p>');
+    html = html.replace(/<p\s+[^>]*?>/gi, '<p>');
+
+    // حذف تگ‌های ناقص و بدون محتوا
+    html = html.replace(/<p>\s*<\/p>/gi, '');
+    html = html.replace(/<div>\s*<\/div>/gi, '');
+
+    // اصلاح تگ‌های span خراب
+    html = html.replace(/<span\s+[^>]*?>/gi, '');
+    html = html.replace(/<\/span>/gi, '');
+
+    // حذف span باقی‌مونده
+    html = html.replace(/<span[^>]*>/gi, '');
+    html = html.replace(/<\/span>/gi, '');
+
+    return html.trim();
 }
 
 async function loadBook() {
