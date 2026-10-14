@@ -260,7 +260,7 @@ body.light-mode .bg-layer {
     border-radius: 10px;
 }
 
-/* استایل برای محتوای لود شده از book.html */
+/* استایل برای محتوای لود شده */
 .book-text-container h1,
 .book-text-container h2,
 .book-text-container h3,
@@ -382,6 +382,43 @@ body.light-mode .bg-layer {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* Progress bar برای لود بخش‌ها */
+.book-progress {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--gold);
+}
+.book-progress .spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+.progress-bar-wrap {
+    width: 80%;
+    max-width: 300px;
+    height: 10px;
+    background: rgba(255,210,122,0.15);
+    border-radius: 10px;
+    margin: 15px auto 10px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+.progress-text {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+}
+
 /* ==================== نشانک ==================== */
 .bookmark-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .bookmark-btn {
@@ -443,6 +480,11 @@ body.light-mode .bg-layer {
 
 #searchInput::placeholder {
     color: var(--text-dim);
+}
+
+#searchInput:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .search-clear {
@@ -519,7 +561,7 @@ body.light-mode .bg-layer {
     text-align: center;
 }
 
-/* ==================== تیترهای پیشنهادی (چیپ‌های اسکرول افقی) ==================== */
+/* ==================== تیترهای پیشنهادی ==================== */
 .suggest-box {
     max-width: 750px;
     margin: 0 auto 18px;
@@ -790,7 +832,7 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
         <div class="search-box">
             <div class="search-input-wrapper">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="جستجو در کتاب..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="جستجو در کتاب..." autocomplete="off" disabled>
                 <button class="search-clear" id="searchClear" title="پاک کردن">✕</button>
             </div>
             <div class="search-nav" id="searchNav" style="display:none;">
@@ -817,14 +859,15 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
             <button class="book-ctrl-btn" id="alignBtn">↔ تغییر چینش</button>
         </div>
 
-        <!-- محتوای کتاب از فایل book.html لود میشه -->
+        <!-- محتوای کتاب از ۶ فایل لود میشه -->
         <div class="book-text-container" id="bookText">
-            <div class="book-loading">
+            <div class="book-progress" id="bookProgress">
                 <div class="spinner"></div>
                 <p style="color: var(--gold);">⏳ در حال بارگذاری کتاب...</p>
-                <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 10px;">
-                    (فایل ۲۲ مگابایتی — چند لحظه صبر کن)
-                </p>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">آماده‌سازی...</p>
             </div>
         </div>
 
@@ -926,9 +969,6 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
 
     const savedPos = parseInt(localStorage.getItem('lily_read_pos') || '0');
     if (savedPos > 0) {
-        setTimeout(() => {
-            container.scrollTop = savedPos;
-        }, 3000);
         btn.classList.add('saved');
         btn.textContent = '🔖 محل خوانده شده ذخیره‌ست';
     }
@@ -987,21 +1027,81 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
     });
 })();
 
-/* ==================== لود کتاب از book.html ==================== */
-(async function loadBook() {
+/* ==================== لود کتاب از ۶ فایل ==================== */
+const BOOK_PARTS = [
+    'book1.html',
+    'book2.html',
+    'book3.html',
+    'book4.html',
+    'book5.html',
+    'book6.html'
+];
+
+async function loadBook() {
     const container = document.getElementById('bookText');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const searchInput = document.getElementById('searchInput');
     if (!container) return;
 
-    try {
-        const response = await fetch('book.html');
-        if (!response.ok) throw new Error('فایل book.html پیدا نشد');
-        const html = await response.text();
+    // ساخت یک wrapper موقت برای هر بخش
+    // اول container رو خالی می‌کنیم (progress رو نگه می‌داریم)
+    // بعد بخش‌ها رو دونه دونه اضافه می‌کنیم
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const bodyContent = doc.body ? doc.body.innerHTML : html;
+    const loadedParts = []; // آرایه بخش‌های لود شده
+    let successCount = 0;
+    let failCount = 0;
 
-        container.innerHTML = bodyContent;
+    // لود موازی همه بخش‌ها
+    const promises = BOOK_PARTS.map((part, index) => {
+        return fetch(part)
+            .then(res => {
+                if (!res.ok) throw new Error(`فایل ${part} پیدا نشد`);
+                return res.text();
+            })
+            .then(html => {
+                successCount++;
+                updateProgress(successCount + failCount, BOOK_PARTS.length);
+                return { index, html, ok: true };
+            })
+            .catch(err => {
+                console.error(`خطا در لود ${part}:`, err);
+                failCount++;
+                updateProgress(successCount + failCount, BOOK_PARTS.length);
+                return { index, html: '', ok: false, error: err.message };
+            });
+    });
+
+    function updateProgress(done, total) {
+        const percent = Math.round((done / total) * 100);
+        if (progressFill) progressFill.style.width = percent + '%';
+        if (progressText) progressText.textContent = `لود بخش ${toFa(done)} از ${toFa(total)} (${toFa(percent)}٪)`;
+    }
+
+    // صبر می‌کنیم همه با هم تموم شن
+    const results = await Promise.all(promises);
+
+    // مرتب‌سازی بر اساس index
+    results.sort((a, b) => a.index - b.index);
+
+    // حالا محتوا رو دونه دونه اضافه می‌کنیم
+    // اول container رو خالی می‌کنیم (progress می‌ره)
+    container.innerHTML = '';
+
+    let allHtml = '';
+
+    results.forEach((result, i) => {
+        if (result.ok && result.html) {
+            // اضافه کردن جداکننده بین بخش‌ها
+            if (i > 0) {
+                allHtml += `<div style="text-align:center;margin:30px 0;color:var(--gold-dark);font-size:1.5rem;">❖ ❖ ❖</div>`;
+            }
+            allHtml += result.html;
+        }
+    });
+
+    if (allHtml) {
+        container.innerHTML = allHtml;
 
         // بازیابی محل خواندن
         const savedPos = parseInt(localStorage.getItem('lily_read_pos') || '0');
@@ -1011,13 +1111,27 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
             }, 300);
         }
 
-        // استخراج تیترها و ساختن چیپ‌های پیشنهادی
+        // فعال کردن جستجو
+        if (searchInput) {
+            searchInput.disabled = false;
+            searchInput.placeholder = 'جستجو در کتاب...';
+        }
+
+        // ساخت چیپ‌های پیشنهادی
         buildSuggestChips(container);
 
-        console.log('✅ کتاب با موفقیت لود شد');
+        console.log(`✅ کتاب با موفقیت لود شد (${successCount} بخش از ${BOOK_PARTS.length})`);
 
-    } catch (err) {
-        console.error('خطا در لود کتاب:', err);
+        if (failCount > 0) {
+            console.warn(`⚠️ ${failCount} بخش لود نشد`);
+            // نمایش هشدار کوچیک بالای کتاب
+            const warn = document.createElement('div');
+            warn.style.cssText = 'text-align:center;padding:10px;background:rgba(255,210,122,0.1);border:1px solid var(--border);border-radius:10px;color:var(--text-soft);font-size:0.85rem;margin-bottom:15px;';
+            warn.textContent = `⚠️ ${toFa(failCount)} بخش از کتاب لود نشد. اتصال اینترنتت رو چک کن.`;
+            container.insertBefore(warn, container.firstChild);
+        }
+    } else {
+        // هیچ بخشی لود نشد
         container.innerHTML = `
             <div style="text-align:center;padding:40px;color:var(--text-soft);">
                 <p style="font-size:3rem;margin-bottom:15px;">📄</p>
@@ -1026,19 +1140,26 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
                 </p>
                 <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.8;">
                     لطفاً اینترنتت رو چک کن و صفحه رو رفرش کن.<br>
-                    اگه بازم نشد، فایل book.html باید کنار index.html باشه.
+                    فایل‌های book1.html تا book6.html باید کنار index.html باشن.
                 </p>
             </div>
         `;
     }
-})();
+}
+
+function toFa(num) {
+    return String(num).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+// اجرای لود کتاب
+loadBook();
 
 /* ==================== ساخت چیپ‌های پیشنهادی ==================== */
 function buildSuggestChips(container) {
     const chipsBox = document.getElementById('suggestChips');
     if (!chipsBox) return;
 
-    // تیترهای ثابت مهم (دستی انتخاب شده از تحلیل book.html)
+    // تیترهای ثابت مهم
     const fixedTitles = [
         'دفتر اول', 'دفتر دوم', 'دفتر سوم', 'دفتر چهارم', 'دفتر پنجم', 'دفتر ششم',
         'مقدمه دفتر', 'نی نامه', 'حکایت', 'تفسیر', 'قصه'
@@ -1049,12 +1170,9 @@ function buildSuggestChips(container) {
     const allElements = container.querySelectorAll('p, h1, h2, h3, h4, h5, div');
     allElements.forEach(el => {
         const txt = (el.textContent || '').trim();
-        // فقط متن‌های کوتاه که شبیه تیتر هستن (کمتر از ۸۰ کاراکتر)
         if (txt.length > 3 && txt.length < 80) {
-            // اگه با عدد شروع بشه یا شامل کلمه‌های کلیدی باشه = تیتر
             if (/^\d+\s/.test(txt) ||
                 /^(حکایت|تفسیر|قصه|مقدمه|دفتر|نی نامه|مثنوی)/.test(txt)) {
-                // حذف شماره اول
                 const cleaned = txt.replace(/^\d+\s*/, '').trim();
                 if (cleaned.length > 3 && cleaned.length < 70) {
                     autoTitles.add(cleaned);
@@ -1063,7 +1181,6 @@ function buildSuggestChips(container) {
         }
     });
 
-    // ساخت لیست نهایی: اول ثابت‌ها، بعد چند تا از خودکارها
     const finalList = [...fixedTitles];
     let count = 0;
     for (const t of autoTitles) {
@@ -1074,10 +1191,8 @@ function buildSuggestChips(container) {
         }
     }
 
-    // پاک کردن باکس
     chipsBox.innerHTML = '';
 
-    // ساخت چیپ برای هر تیتر
     finalList.forEach(title => {
         const chip = document.createElement('button');
         chip.className = 'chip';
@@ -1085,9 +1200,9 @@ function buildSuggestChips(container) {
         chip.title = 'جستجوی: ' + title;
         chip.addEventListener('click', () => {
             const input = document.getElementById('searchInput');
+            if (input.disabled) return;
             input.value = title;
             input.dispatchEvent(new Event('input', { bubbles: true }));
-            // اسکرول به کادر جستجو
             input.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
         chipsBox.appendChild(chip);
@@ -1107,12 +1222,6 @@ function buildSuggestChips(container) {
     let currentIndex = -1;
     let searchTimer;
 
-    // تبدیل عدد به فارسی
-    function toFa(num) {
-        return String(num).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-    }
-
-    // پاک کردن هایلایت‌های قبلی
     function clearHighlights() {
         const container = document.getElementById('bookText');
         if (!container) return;
@@ -1127,11 +1236,12 @@ function buildSuggestChips(container) {
         currentIndex = -1;
     }
 
-    // هایلایت کردن متن
     function highlightMatches(query) {
         clearHighlights();
         const container = document.getElementById('bookText');
         if (!container) return;
+
+        if (input.disabled) return; // اگه کتاب هنوز لود نشده، کاری نکن
 
         if (!query || query.length < 2) {
             navBox.style.display = 'none';
