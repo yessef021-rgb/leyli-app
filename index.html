@@ -339,14 +339,6 @@ body.light-mode .bg-layer {
     border-radius: 8px !important;
 }
 
-/* اسکرول بار داخل کتاب */
-.book-text-container::-webkit-scrollbar { width: 8px; }
-.book-text-container::-webkit-scrollbar-track { background: var(--bg-main); border-radius: 10px; }
-.book-text-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--gold-dark), var(--gold));
-    border-radius: 10px;
-}
-
 .book-controls {
     display: flex;
     justify-content: center;
@@ -406,6 +398,207 @@ body.light-mode .bg-layer {
 .bookmark-btn.saved {
     background: linear-gradient(135deg, #8b1a1a, #c98b3a);
     color: #ffd27a;
+}
+
+/* ==================== جستجو ==================== */
+.search-box {
+    max-width: 750px;
+    margin: 0 auto 18px;
+    padding: 0 5px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--bg-soft);
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    padding: 4px 8px 4px 18px;
+    transition: all .3s;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: var(--gold);
+    box-shadow: 0 0 25px rgba(255,210,122,0.25);
+}
+
+.search-icon {
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-left: 10px;
+}
+
+#searchInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 10px 5px;
+    min-width: 0;
+}
+
+#searchInput::placeholder {
+    color: var(--text-dim);
+}
+
+.search-clear {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 1rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+    font-family: inherit;
+}
+
+.search-clear:hover {
+    background: rgba(255,210,122,0.15);
+    color: var(--gold);
+}
+
+.search-clear.visible {
+    display: flex;
+}
+
+.search-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+.search-nav-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+    font-family: inherit;
+}
+
+.search-nav-btn:hover {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #1a0a08;
+    transform: translateY(-2px);
+}
+
+.search-nav-btn:active {
+    transform: scale(0.9);
+}
+
+.search-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.search-count {
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 700;
+    min-width: 70px;
+    text-align: center;
+}
+
+/* ==================== تیترهای پیشنهادی (چیپ‌های اسکرول افقی) ==================== */
+.suggest-box {
+    max-width: 750px;
+    margin: 0 auto 18px;
+    padding: 0 5px;
+}
+
+.suggest-title {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    margin-bottom: 8px;
+    padding-right: 8px;
+    letter-spacing: 1px;
+}
+
+.suggest-chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.suggest-chips::-webkit-scrollbar {
+    height: 5px;
+}
+.suggest-chips::-webkit-scrollbar-track {
+    background: transparent;
+}
+.suggest-chips::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    border-radius: 10px;
+}
+
+.chip {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: rgba(255,210,122,0.08);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: all .3s;
+}
+
+.chip:hover {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #1a0a08;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,210,122,0.35);
+}
+
+.chip:active {
+    transform: scale(0.95);
+}
+
+.chip.chip-all {
+    background: linear-gradient(135deg, rgba(139,26,26,0.3), rgba(201,139,58,0.3));
+    border-color: var(--gold);
+}
+
+/* هایلایت نتایج */
+mark.search-highlight {
+    background: rgba(255,210,122,0.35);
+    color: var(--text-main);
+    border-radius: 3px;
+    padding: 1px 2px;
+    transition: background .3s;
+}
+
+mark.search-highlight.active {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #1a0a08;
+    box-shadow: 0 0 15px rgba(255,210,122,0.7);
+    font-weight: 700;
 }
 
 /* ==================== نظر ==================== */
@@ -496,6 +689,7 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     .book-text-container h2 { font-size: 1.35rem !important; }
     .book-text-container h3 { font-size: 1.15rem !important; }
     .book-ctrl-btn { padding: 8px 14px; font-size: 0.8rem; }
+    .chip { padding: 7px 13px; font-size: 0.78rem; }
 }
 </style>
 </head>
@@ -591,6 +785,28 @@ body.light-mode .music-bar { background: rgba(255,250,240,0.95); }
     <!-- ==================== کتاب ==================== -->
     <div class="panel active" id="book">
         <div class="section-title">مثنوی معنوی · مولانا</div>
+
+        <!-- کادر جستجو -->
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="جستجو در کتاب..." autocomplete="off">
+                <button class="search-clear" id="searchClear" title="پاک کردن">✕</button>
+            </div>
+            <div class="search-nav" id="searchNav" style="display:none;">
+                <button class="search-nav-btn" id="searchPrev" title="قبلی">▲</button>
+                <span class="search-count" id="searchCount">0 / 0</span>
+                <button class="search-nav-btn" id="searchNext" title="بعدی">▼</button>
+            </div>
+        </div>
+
+        <!-- چیپ‌های پیشنهادی -->
+        <div class="suggest-box">
+            <div class="suggest-title">✨ جستجوهای پیشنهادی:</div>
+            <div class="suggest-chips" id="suggestChips">
+                <!-- چیپ‌ها با JS پر می‌شن -->
+            </div>
+        </div>
 
         <div class="bookmark-bar">
             <button class="bookmark-btn" id="bookmarkBtn">🔖 نشانک این صفحه</button>
@@ -781,7 +997,6 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
         if (!response.ok) throw new Error('فایل book.html پیدا نشد');
         const html = await response.text();
 
-        // استخراج محتوای body اگه فایل کامل html باشه
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const bodyContent = doc.body ? doc.body.innerHTML : html;
@@ -795,6 +1010,9 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
                 container.scrollTop = savedPos;
             }, 300);
         }
+
+        // استخراج تیترها و ساختن چیپ‌های پیشنهادی
+        buildSuggestChips(container);
 
         console.log('✅ کتاب با موفقیت لود شد');
 
@@ -813,6 +1031,244 @@ document.getElementById('scrollTopBtn').addEventListener('click', () => {
             </div>
         `;
     }
+})();
+
+/* ==================== ساخت چیپ‌های پیشنهادی ==================== */
+function buildSuggestChips(container) {
+    const chipsBox = document.getElementById('suggestChips');
+    if (!chipsBox) return;
+
+    // تیترهای ثابت مهم (دستی انتخاب شده از تحلیل book.html)
+    const fixedTitles = [
+        'دفتر اول', 'دفتر دوم', 'دفتر سوم', 'دفتر چهارم', 'دفتر پنجم', 'دفتر ششم',
+        'مقدمه دفتر', 'نی نامه', 'حکایت', 'تفسیر', 'قصه'
+    ];
+
+    // استخراج خودکار تیترها از داخل کتاب
+    const autoTitles = new Set();
+    const allElements = container.querySelectorAll('p, h1, h2, h3, h4, h5, div');
+    allElements.forEach(el => {
+        const txt = (el.textContent || '').trim();
+        // فقط متن‌های کوتاه که شبیه تیتر هستن (کمتر از ۸۰ کاراکتر)
+        if (txt.length > 3 && txt.length < 80) {
+            // اگه با عدد شروع بشه یا شامل کلمه‌های کلیدی باشه = تیتر
+            if (/^\d+\s/.test(txt) ||
+                /^(حکایت|تفسیر|قصه|مقدمه|دفتر|نی نامه|مثنوی)/.test(txt)) {
+                // حذف شماره اول
+                const cleaned = txt.replace(/^\d+\s*/, '').trim();
+                if (cleaned.length > 3 && cleaned.length < 70) {
+                    autoTitles.add(cleaned);
+                }
+            }
+        }
+    });
+
+    // ساخت لیست نهایی: اول ثابت‌ها، بعد چند تا از خودکارها
+    const finalList = [...fixedTitles];
+    let count = 0;
+    for (const t of autoTitles) {
+        if (count >= 20) break;
+        if (!finalList.includes(t)) {
+            finalList.push(t);
+            count++;
+        }
+    }
+
+    // پاک کردن باکس
+    chipsBox.innerHTML = '';
+
+    // ساخت چیپ برای هر تیتر
+    finalList.forEach(title => {
+        const chip = document.createElement('button');
+        chip.className = 'chip';
+        chip.textContent = title;
+        chip.title = 'جستجوی: ' + title;
+        chip.addEventListener('click', () => {
+            const input = document.getElementById('searchInput');
+            input.value = title;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            // اسکرول به کادر جستجو
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+        chipsBox.appendChild(chip);
+    });
+}
+
+/* ==================== جستجو در کتاب ==================== */
+(function initSearch() {
+    const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('searchClear');
+    const navBox = document.getElementById('searchNav');
+    const countEl = document.getElementById('searchCount');
+    const prevBtn = document.getElementById('searchPrev');
+    const nextBtn = document.getElementById('searchNext');
+
+    let matches = [];
+    let currentIndex = -1;
+    let searchTimer;
+
+    // تبدیل عدد به فارسی
+    function toFa(num) {
+        return String(num).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    }
+
+    // پاک کردن هایلایت‌های قبلی
+    function clearHighlights() {
+        const container = document.getElementById('bookText');
+        if (!container) return;
+        container.querySelectorAll('mark.search-highlight').forEach(m => {
+            const parent = m.parentNode;
+            if (parent) {
+                parent.replaceChild(document.createTextNode(m.textContent), m);
+                parent.normalize();
+            }
+        });
+        matches = [];
+        currentIndex = -1;
+    }
+
+    // هایلایت کردن متن
+    function highlightMatches(query) {
+        clearHighlights();
+        const container = document.getElementById('bookText');
+        if (!container) return;
+
+        if (!query || query.length < 2) {
+            navBox.style.display = 'none';
+            return;
+        }
+
+        const walker = document.createTreeWalker(
+            container,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: function(node) {
+                    if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                    const p = node.parentNode;
+                    if (!p) return NodeFilter.FILTER_REJECT;
+                    const tag = p.nodeName;
+                    if (tag === 'SCRIPT' || tag === 'STYLE') {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            }
+        );
+
+        const textNodes = [];
+        let node;
+        while (node = walker.nextNode()) {
+            textNodes.push(node);
+        }
+
+        const lowerQuery = query.toLowerCase();
+
+        textNodes.forEach(textNode => {
+            const text = textNode.nodeValue;
+            const lowerText = text.toLowerCase();
+            let startIdx = 0;
+            let idx;
+            const fragments = [];
+            let lastEnd = 0;
+            let found = false;
+
+            while ((idx = lowerText.indexOf(lowerQuery, startIdx)) !== -1) {
+                found = true;
+                if (idx > lastEnd) {
+                    fragments.push(document.createTextNode(text.slice(lastEnd, idx)));
+                }
+                const mark = document.createElement('mark');
+                mark.className = 'search-highlight';
+                mark.textContent = text.slice(idx, idx + query.length);
+                fragments.push(mark);
+                matches.push(mark);
+                lastEnd = idx + query.length;
+                startIdx = lastEnd;
+            }
+
+            if (found) {
+                if (lastEnd < text.length) {
+                    fragments.push(document.createTextNode(text.slice(lastEnd)));
+                }
+                const parent = textNode.parentNode;
+                fragments.forEach(f => parent.insertBefore(f, textNode));
+                parent.removeChild(textNode);
+            }
+        });
+
+        if (matches.length > 0) {
+            navBox.style.display = 'flex';
+            currentIndex = 0;
+            updateCount();
+            scrollToMatch(0);
+        } else {
+            navBox.style.display = 'flex';
+            countEl.textContent = '۰ نتیجه';
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+        }
+    }
+
+    function updateCount() {
+        if (matches.length === 0) {
+            countEl.textContent = '۰ نتیجه';
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            return;
+        }
+        countEl.textContent = `${toFa(currentIndex + 1)} / ${toFa(matches.length)}`;
+        prevBtn.disabled = false;
+        nextBtn.disabled = false;
+    }
+
+    function scrollToMatch(index) {
+        if (matches.length === 0) return;
+        matches.forEach(m => m.classList.remove('active'));
+        const target = matches[index];
+        if (!target) return;
+        target.classList.add('active');
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    input.addEventListener('input', () => {
+        clearTimeout(searchTimer);
+        const query = input.value.trim();
+        clearBtn.classList.toggle('visible', query.length > 0);
+        searchTimer = setTimeout(() => highlightMatches(query), 400);
+    });
+
+    clearBtn.addEventListener('click', () => {
+        input.value = '';
+        clearBtn.classList.remove('visible');
+        clearHighlights();
+        navBox.style.display = 'none';
+        input.focus();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (matches.length === 0) return;
+        currentIndex = (currentIndex + 1) % matches.length;
+        updateCount();
+        scrollToMatch(currentIndex);
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (matches.length === 0) return;
+        currentIndex = (currentIndex - 1 + matches.length) % matches.length;
+        updateCount();
+        scrollToMatch(currentIndex);
+    });
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (matches.length > 0) {
+                currentIndex = (currentIndex + 1) % matches.length;
+                updateCount();
+                scrollToMatch(currentIndex);
+            }
+        }
+    });
 })();
 
 /* ==================== کاور ==================== */
